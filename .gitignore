@@ -8,4 +8,4 @@ data.db-wal
 .wrangler
 .env
 benchmark/
-playwright-mcp/
+.playwright-mcp/

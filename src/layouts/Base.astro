@@ -1,11 +1,11 @@
 ---
 import { getMenu, getEmDashCollection } from "emdash";
 import {
-	WidgetArea,
 	EmDashHead,
 	EmDashBodyStart,
 	EmDashBodyEnd,
 } from "emdash/ui";
+import DeferredFooterWidgets from "../components/DeferredFooterWidgets.astro";
 import { createPublicPageContext } from "emdash/page";
 import LiveSearch from "emdash/ui/search";
 import { getTimings } from "../utils/timing";
@@ -180,7 +180,9 @@ const isLoggedIn = !!Astro.locals.user;
 						</ul>
 					</div>
 					<div class="footer-widgets-section">
-						<WidgetArea name="footer" />
+						<DeferredFooterWidgets server:defer>
+							<p slot="fallback" class="footer-widgets-loading"></p>
+						</DeferredFooterWidgets>
 					</div>
 				</div>
 				<div class="footer-bottom">

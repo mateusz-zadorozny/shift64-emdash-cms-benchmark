@@ -8,8 +8,8 @@ import {
 import {
 	Image,
 	PortableText,
-	WidgetArea,
 } from "emdash/ui";
+import DeferredSidebar from "../../components/DeferredSidebar.astro";
 import Base from "../../layouts/Base.astro";
 import Comments from "../../components/Comments.astro";
 import CommentForm from "../../components/CommentForm.astro";
@@ -236,7 +236,13 @@ const publishDate =
 						</div>
 					</nav>
 					<div class="sidebar-widgets">
-						<WidgetArea name="sidebar" />
+						<DeferredSidebar server:defer>
+							<div slot="fallback" class="sidebar-skeleton">
+								<div class="skeleton-block"></div>
+								<div class="skeleton-block"></div>
+								<div class="skeleton-block"></div>
+							</div>
+						</DeferredSidebar>
 					</div>
 				</div>
 			</aside>
@@ -639,6 +645,33 @@ const publishDate =
 	.toc-content :global(.toc-link:hover),
 	.toc-content :global(.toc-link.active) {
 		color: var(--color-text);
+	}
+
+	/* Sidebar skeleton */
+	.sidebar-skeleton {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-6);
+	}
+
+	.sidebar-skeleton .skeleton-block {
+		height: 120px;
+		background: var(--color-surface);
+		border-radius: var(--radius);
+		animation: skeleton-pulse 1.5s ease-in-out infinite;
+	}
+
+	.sidebar-skeleton .skeleton-block:nth-child(2) {
+		height: 80px;
+	}
+
+	.sidebar-skeleton .skeleton-block:nth-child(3) {
+		height: 100px;
+	}
+
+	@keyframes skeleton-pulse {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.4; }
 	}
 
 	/* Sidebar widgets */
