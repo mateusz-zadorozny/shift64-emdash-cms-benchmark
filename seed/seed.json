@@ -1,0 +1,1963 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "EmDash CMS Polska",
+		"description": "Polska strona o EmDash CMS — nowoczesnym systemie zarządzania treścią od Cloudflare",
+		"author": "Mateusz Zadorożny"
+	},
+	"settings": {
+		"title": "EmDash CMS Polska",
+		"tagline": "Nowoczesny CMS od Cloudflare — open source alternatywa dla WordPress"
+	},
+	"collections": [
+		{
+			"slug": "posts",
+			"label": "Wpisy",
+			"labelSingular": "Wpis",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search",
+				"seo"
+			],
+			"commentsEnabled": true,
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Tytuł",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Obrazek wyróżniający",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "Treść",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Zajawka",
+					"type": "text"
+				}
+			]
+		},
+		{
+			"slug": "pages",
+			"label": "Strony",
+			"labelSingular": "Strona",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Tytuł",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Treść",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "category",
+			"label": "Kategorie",
+			"labelSingular": "Kategoria",
+			"hierarchical": true,
+			"collections": [
+				"posts"
+			],
+			"terms": [
+				{
+					"slug": "wprowadzenie",
+					"label": "Wprowadzenie"
+				},
+				{
+					"slug": "poradniki",
+					"label": "Poradniki"
+				},
+				{
+					"slug": "porownania",
+					"label": "Porównania"
+				},
+				{
+					"slug": "technologia",
+					"label": "Technologia"
+				}
+			]
+		},
+		{
+			"name": "tag",
+			"label": "Tagi",
+			"labelSingular": "Tag",
+			"hierarchical": false,
+			"collections": [
+				"posts"
+			],
+			"terms": [
+				{
+					"slug": "emdash",
+					"label": "EmDash"
+				},
+				{
+					"slug": "wordpress",
+					"label": "WordPress"
+				},
+				{
+					"slug": "cloudflare",
+					"label": "Cloudflare"
+				},
+				{
+					"slug": "serverless",
+					"label": "Serverless"
+				},
+				{
+					"slug": "open-source",
+					"label": "Open Source"
+				},
+				{
+					"slug": "bezpieczenstwo",
+					"label": "Bezpieczeństwo"
+				},
+				{
+					"slug": "migracja",
+					"label": "Migracja"
+				},
+				{
+					"slug": "astro",
+					"label": "Astro"
+				},
+				{
+					"slug": "typescript",
+					"label": "TypeScript"
+				},
+				{
+					"slug": "ai",
+					"label": "AI"
+				},
+				{
+					"slug": "wtyczki",
+					"label": "Wtyczki"
+				}
+			]
+		}
+	],
+	"bylines": [
+		{
+			"id": "byline-mateusz",
+			"slug": "mateusz-zadorozny",
+			"displayName": "Mateusz Zadorożny"
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Nawigacja główna",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Strona główna",
+					"url": "/"
+				},
+				{
+					"type": "custom",
+					"label": "O EmDash",
+					"url": "/pages/o-emdash"
+				},
+				{
+					"type": "custom",
+					"label": "Blog",
+					"url": "/posts"
+				}
+			]
+		}
+	],
+	"widgetAreas": [
+		{
+			"name": "sidebar",
+			"label": "Panel boczny",
+			"description": "Panel boczny wyświetlany na stronach wpisów",
+			"widgets": [
+				{
+					"type": "component",
+					"componentId": "core:search",
+					"title": "Szukaj"
+				},
+				{
+					"type": "component",
+					"componentId": "core:categories",
+					"title": "Kategorie"
+				},
+				{
+					"type": "component",
+					"componentId": "core:tags",
+					"title": "Tagi"
+				},
+				{
+					"type": "component",
+					"componentId": "core:recent-posts",
+					"title": "Ostatnie wpisy",
+					"settings": {
+						"count": 5,
+						"showDate": true
+					}
+				},
+				{
+					"type": "component",
+					"componentId": "core:archives",
+					"title": "Archiwum",
+					"settings": {
+						"type": "monthly",
+						"limit": 6
+					}
+				}
+			]
+		},
+		{
+			"name": "footer",
+			"label": "Stopka",
+			"description": "Widgety wyświetlane w stopce strony",
+			"widgets": [
+				{
+					"type": "content",
+					"title": "O stronie",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Polska strona poświęcona EmDash CMS — nowoczesnemu systemowi zarządzania treścią od Cloudflare. Poradniki, porównania i aktualności."
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"sections": [
+		{
+			"slug": "newsletter-signup",
+			"title": "Newsletter",
+			"description": "Blok zachęcający do zapisu na newsletter",
+			"keywords": [
+				"newsletter",
+				"zapis",
+				"email",
+				"cta"
+			],
+			"source": "theme",
+			"content": [
+				{
+					"_type": "block",
+					"style": "h3",
+					"children": [
+						{
+							"_type": "span",
+							"text": "Bądź na bieżąco"
+						}
+					]
+				},
+				{
+					"_type": "block",
+					"style": "normal",
+					"children": [
+						{
+							"_type": "span",
+							"text": "Otrzymuj powiadomienia o nowych wpisach. Bez spamu, możesz zrezygnować w dowolnym momencie."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "about-author",
+			"title": "O autorze",
+			"description": "Krótki biogram autora do wpisów i stron",
+			"keywords": [
+				"autor",
+				"bio",
+				"o mnie"
+			],
+			"source": "theme",
+			"content": [
+				{
+					"_type": "block",
+					"style": "normal",
+					"children": [
+						{
+							"_type": "span",
+							"text": "Mateusz Zadorożny — programista i konsultant web. Założyciel shift64.com. Pisze o nowoczesnych technologiach webowych, CMS-ach i narzędziach dla deweloperów."
+						}
+					]
+				}
+			]
+		}
+	],
+	"content": {
+		"pages": [
+			{
+				"id": "o-emdash",
+				"slug": "o-emdash",
+				"status": "published",
+				"data": {
+					"title": "O EmDash CMS",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Witamy na emdash.pl — polskiej stronie poświęconej "
+								},
+								{
+									"_type": "span",
+									"text": "EmDash CMS",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": ", nowoczesnemu systemowi zarządzania treścią stworzonemu przez Cloudflare. Naszą misją jest dostarczanie polskojęzycznych materiałów, poradników i aktualności o tym przełomowym CMS-ie."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Czym jest EmDash?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash to w pełni open source'owy CMS napisany od podstaw w TypeScript. Działa na frameworku Astro i jest zoptymalizowany pod Cloudflare Workers — co oznacza, że jest serverless, szybki i skalowalny. EmDash został stworzony jako nowoczesna alternatywa dla WordPress, z naciskiem na bezpieczeństwo wtyczek, natywną obsługę AI i wbudowany system płatności."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "O autorze"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Stronę prowadzi "
+								},
+								{
+									"_type": "span",
+									"text": "Mateusz Zadorożny",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — programista i konsultant web, założyciel shift64.com. Specjalizuje się w nowoczesnych technologiach webowych, systemach CMS i automatyzacji procesów deweloperskich."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Strona jest zbudowana na EmDash CMS i Astro, hostowana na Cloudflare Workers. Kod źródłowy jest otwarty — jeśli chcesz zobaczyć, jak to działa pod maską, zapraszamy do repozytorium."
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"posts": [
+			{
+				"id": "post-1",
+				"slug": "co-to-jest-emdash-cms",
+				"status": "published",
+				"data": {
+					"title": "Co to jest EmDash CMS? Kompletny przewodnik po nowym CMS od Cloudflare",
+					"excerpt": "EmDash CMS to nowoczesny, open source'owy system zarządzania treścią stworzony przez Cloudflare. Napisany w TypeScript, działający serverless — poznaj CMS, który ma zastąpić WordPress.",
+					"featured_image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash CMS"
+								},
+								{
+									"_type": "span",
+									"text": " to zupełnie nowy system zarządzania treścią (CMS), stworzony od podstaw przez zespół "
+								},
+								{
+									"_type": "span",
+									"text": "Cloudflare",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": ". W przeciwieństwie do WordPress, który powstał ponad 20 lat temu w erze tradycyjnych serwerów, EmDash został zaprojektowany z myślą o nowoczesnym internecie — serverless, edge computing i natywnej obsłudze sztucznej inteligencji."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cały system jest napisany w TypeScript i zbudowany na frameworku Astro 6.0. Działa natywnie na Cloudflare Workers (izolaty v8), ale można go uruchomić na dowolnym serwerze Node.js. Jest w pełni open source na licencji MIT — czyli bardziej liberalnej niż GPL WordPress."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Kluczowe cechy EmDash CMS"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Najważniejszą innowacją EmDash jest "
+								},
+								{
+									"_type": "span",
+									"text": "sandboxowane wtyczki",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": ". W WordPress 96% luk bezpieczeństwa pochodzi z wtyczek — bo każda wtyczka ma pełny dostęp do bazy danych i systemu plików. W EmDash każda wtyczka działa w izolowanym środowisku (Dynamic Worker) i musi z góry zadeklarować, jakich uprawnień potrzebuje. To fundamentalna zmiana w podejściu do bezpieczeństwa CMS."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash oferuje również wbudowaną obsługę płatności przez protokół x402, natywną integrację z narzędziami AI (Agent Skills, MCP server), uwierzytelnianie passkey (bez haseł), system ról i uprawnień oraz pełne API do zarządzania treścią. Admin panel jest dostępny pod adresem /_emdash/admin i pozwala na wygodne zarządzanie wszystkimi aspektami strony."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Dla kogo jest EmDash?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash jest skierowany przede wszystkim do deweloperów i zespołów, które szukają nowoczesnej alternatywy dla WordPress. Jeśli budujesz strony internetowe, blogi, portale treściowe lub sklepy z treściami premium — EmDash daje ci narzędzia, których WordPress nie oferuje: bezpieczne wtyczki, serverless deployment, natywne płatności i wsparcie AI. Projekt jest obecnie w fazie public beta (v0.1.0), ale już dziś można go używać do budowy stron produkcyjnych."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Jak zacząć?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Aby zainstalować EmDash, wystarczy uruchomić komendę npm create emdash@latest w terminalu. System przeprowadzi cię przez konfigurację i w kilka minut będziesz mieć działającą stronę z panelem administracyjnym. Możesz też skorzystać z przycisku deploy na Cloudflare, który uruchomi całą infrastrukturę jednym kliknięciem. O szczegółach instalacji piszemy w osobnym poradniku."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"wprowadzenie"
+					],
+					"tag": [
+						"emdash",
+						"cloudflare",
+						"open-source"
+					]
+				}
+			},
+			{
+				"id": "post-2",
+				"slug": "emdash-vs-wordpress",
+				"status": "published",
+				"data": {
+					"title": "EmDash CMS vs WordPress — szczegółowe porównanie systemów CMS",
+					"excerpt": "Porównujemy EmDash CMS i WordPress pod kątem architektury, bezpieczeństwa, wydajności i możliwości. Który CMS wybrać w 2025 roku?",
+					"featured_image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "WordPress od ponad dwóch dekad dominuje rynek systemów zarządzania treścią. Obsługuje ponad 40% wszystkich stron w internecie. Ale świat się zmienił — gdy WordPress powstawał, AWS EC2 jeszcze nie istniał. "
+								},
+								{
+									"_type": "span",
+									"text": "EmDash CMS",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " od Cloudflare to propozycja CMS-u zaprojektowanego od zera pod nowoczesną infrastrukturę. Jak wypada w bezpośrednim starciu?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Architektura: PHP vs TypeScript"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "WordPress jest napisany w PHP i wymaga tradycyjnego serwera (Apache/Nginx + MySQL/MariaDB). Każde żądanie uruchamia interpreter PHP, wykonuje zapytania do bazy i generuje HTML. EmDash działa na Cloudflare Workers — izolaty v8, które startują w milisekundach, bez zimnych startów typowych dla tradycyjnych serwerów. Baza danych to D1 (SQLite na edge), a pliki multimedialne przechowuje R2. Cały stack jest serverless — skaluje się do zera, gdy nikt nie odwiedza strony, i obsługuje miliony żądań, gdy ruch wzrasta."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Bezpieczeństwo wtyczek"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "To największa różnica między tymi systemami. W WordPress "
+								},
+								{
+									"_type": "span",
+									"text": "96% luk bezpieczeństwa pochodzi z wtyczek",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": ". Każda wtyczka ma pełny dostęp do bazy, systemu plików i może wykonywać dowolny kod PHP. W EmDash wtyczki działają w sandboxie — każda w osobnym izolowanym środowisku. Muszą zadeklarować uprawnienia (np. read:content, email:send), a administrator widzi te uprawnienia przed instalacją. Wtyczka do powiadomień nie może odczytać danych karty płatniczej, bo po prostu nie ma do nich dostępu."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Licencja i ekosystem"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "WordPress używa licencji GPL, co oznacza, że wszystkie wtyczki i motywy muszą być również GPL. EmDash jest na licencji MIT — bardziej liberalnej, pozwalającej na tworzenie wtyczek o dowolnej licencji, w tym zamkniętego źródła. To otwiera drzwi dla firm, które chcą tworzyć komercyjne rozwiązenia bez konieczności ujawniania kodu. Pod względem ekosystemu WordPress wygrywa ogromną przewagą — tysiące motywów i wtyczek. EmDash dopiero buduje swój marketplace, ale jego architektura daje fundament pod bezpieczniejszy i bardziej kontrolowany ekosystem."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Kiedy wybrać EmDash, a kiedy WordPress?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "WordPress nadal jest dobrym wyborem, jeśli potrzebujesz ogromnego ekosystemu wtyczek i motywów gotowych do użycia od zaraz. EmDash to lepszy wybór, jeśli zależy ci na bezpieczeństwie, wydajności, nowoczesnym stacku technologicznym i nie boisz się pracy z kodem. Dla deweloperów, agencji i projektów, gdzie bezpieczeństwo i skalowalność są priorytetem, EmDash jest naturalnym następcą WordPress."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"porownania"
+					],
+					"tag": [
+						"emdash",
+						"wordpress"
+					]
+				}
+			},
+			{
+				"id": "post-3",
+				"slug": "jak-zainstalowac-emdash-cms",
+				"status": "published",
+				"data": {
+					"title": "Jak zainstalować EmDash CMS? Instrukcja krok po kroku",
+					"excerpt": "Kompletna instrukcja instalacji EmDash CMS — od wymagań systemowych, przez konfigurację lokale, aż po deployment na Cloudflare Workers.",
+					"featured_image": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Instalacja EmDash CMS jest znacznie prostsza niż konfiguracja WordPress — nie potrzebujesz serwera, bazy MySQL ani PHP. Wystarczy Node.js i kilka komend w terminalu. W tym poradniku przeprowadzimy cię przez cały proces krok po kroku."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Wymagania systemowe"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Do uruchomienia EmDash potrzebujesz: "
+								},
+								{
+									"_type": "span",
+									"text": "Node.js w wersji 18 lub nowszej",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": ", menedżera pakietów npm (lub pnpm/yarn) oraz terminala. Opcjonalnie — konta Cloudflare, jeśli chcesz deployować na Workers. Do pracy lokalnej konto Cloudflare nie jest wymagane — EmDash świetnie działa na zwykłym serwerze Node.js z bazą SQLite."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Instalacja lokalna"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Aby stworzyć nowy projekt EmDash, uruchom w terminalu komendę: npm create emdash@latest. Kreator przeprowadzi cię przez wybór szablonu, nazwy projektu i konfiguracji. Po zakończeniu wejdź do katalogu projektu i uruchom npx emdash dev — serwer deweloperski wystartuje, zastosuje migracje bazy danych, załaduje dane startowe (seed) i wygeneruje typy TypeScript. Panel administracyjny będzie dostępny pod adresem http://localhost:4321/_emdash/admin."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Deployment na Cloudflare Workers"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Najprostszy sposób to skorzystanie z przycisku Deploy to Cloudflare w repozytorium EmDash — uruchomi on cały stack jednym kliknięciem. Jeśli wolisz ręczną konfigurację, zainstaluj Wrangler CLI (npm install -g wrangler), zaloguj się do konta Cloudflare (wrangler login), a następnie uruchom npm run deploy z katalogu projektu. Wrangler automatycznie utworzy bazę D1, bucket R2 na media i wdroży aplikację na Workers. Twoja strona będzie dostępna pod adresem .workers.dev — możesz też podpiąć własną domenę w panelu Cloudflare."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Pierwsze kroki po instalacji"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Po pierwszym uruchomieniu EmDash przeprowadzi cię przez tworzenie konta administratora z użyciem passkey (klucza biometrycznego lub sprzętowego — bez haseł!). Następnie możesz edytować ustawienia strony, tworzyć kolekcje treści, dodawać wpisy i strony oraz instalować wtyczki z marketplace. Plik seed/seed.json zawiera definicję schematu i przykładową treść — edytuj go, aby dostosować strukturę strony do swoich potrzeb."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"poradniki"
+					],
+					"tag": [
+						"emdash",
+						"cloudflare"
+					]
+				}
+			},
+			{
+				"id": "post-4",
+				"slug": "bezpieczenstwo-wtyczek-emdash",
+				"status": "published",
+				"data": {
+					"title": "Bezpieczeństwo wtyczek w EmDash CMS — dlaczego to zmienia zasady gry",
+					"excerpt": "96% luk bezpieczeństwa WordPress pochodzi z wtyczek. EmDash CMS rozwiązuje ten problem od podstaw dzięki sandboxowanym wtyczkom i deklarowanym uprawnieniom.",
+					"featured_image": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Jeśli kiedykolwiek zarządzałeś stroną na WordPress, wiesz, że aktualizacje wtyczek to ciągłe źródło stresu. Każda wtyczka może zawierać lukę, która otwiera drzwi do całej strony. To nie jest wyolbrzymienie — "
+								},
+								{
+									"_type": "span",
+									"text": "96% zgłaszanych luk bezpieczeństwa w ekosystemie WordPress pochodzi właśnie z wtyczek",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": ". EmDash CMS podchodzi do tego problemu fundamentalnie inaczej."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Problem WordPress: pełny dostęp dla każdej wtyczki"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "W WordPress każda zainstalowana wtyczka ma pełny dostęp do bazy danych, systemu plików i może wykonywać dowolny kod PHP na serwerze. Wtyczka do formularzy kontaktowych ma taki sam poziom dostępu jak wtyczka e-commerce obsługująca płatności. Nie ma żadnej izolacji — jedna źle napisana wtyczka może odczytać hasła użytkowników, zmodyfikować inne wtyczki, a nawet przejąć kontrolę nad całym serwerem."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Rozwiązanie EmDash: sandbox i deklarowane uprawnienia"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash wprowadza model inspirowany systemami mobilnymi (Android/iOS), gdzie każda aplikacja musi zadeklarować, jakich uprawnień potrzebuje. Każda wtyczka w EmDash działa w "
+								},
+								{
+									"_type": "span",
+									"text": "izolowanym środowisku (Dynamic Worker)",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " i musi z góry określić swoje potrzeby w manifeście. Na przykład wtyczka wysyłająca powiadomienia email deklaruje tylko read:content i email:send. Nie może odczytać bazy użytkowników, zmodyfikować treści ani uzyskać dostępu do systemu plików — po prostu nie ma takich uprawnień."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Administrator widzi pełną listę uprawnień przed instalacją wtyczki — podobnie jak w sklepie z aplikacjami na telefon. To transparentny model zaufania oparty na deklarowanych możliwościach, a nie na reputacji w marketplace. Dodatkowo wtyczki mogą mieć ograniczenia sieciowe — można określić, z jakimi domenami mogą się komunikować, co blokuje exfiltrację danych do nieautoryzowanych serwerów."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Co to oznacza w praktyce?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Dla właścicieli stron oznacza to koniec z nocnymi koszmarami o zhakowanych witrynach przez podatną wtyczkę. Dla deweloperów wtyczek — jasne zasady gry i możliwość tworzenia bezpiecznych rozwiązań bez obaw, że błąd w ich kodzie skompromituje całą infrastrukturę klienta. To fundamentalna zmiana w podejściu do bezpieczeństwa CMS i główny powód, dla którego wielu ekspertów wskazuje EmDash jako przyszłość zarządzania treścią."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"technologia"
+					],
+					"tag": [
+						"emdash",
+						"bezpieczenstwo",
+						"wordpress",
+						"wtyczki"
+					]
+				}
+			},
+			{
+				"id": "post-5",
+				"slug": "emdash-serverless-cloudflare-workers",
+				"status": "published",
+				"data": {
+					"title": "EmDash CMS na Cloudflare Workers — serverless CMS przyszłości",
+					"excerpt": "Jak EmDash CMS wykorzystuje Cloudflare Workers, D1 i R2 do dostarczania treści z edge'a? Wyjaśniamy architekturę serverless CMS.",
+					"featured_image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Tradycyjne systemy CMS — WordPress, Drupal, Joomla — wymagają serwera, który działa 24/7. Nawet gdy nikt nie odwiedza strony, serwer konsumuje zasoby i generuje koszty. "
+								},
+								{
+									"_type": "span",
+									"text": "EmDash CMS",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " to pierwszy poważny CMS, który działa natywnie jako serverless — na Cloudflare Workers. Co to oznacza w praktyce?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Czym są Cloudflare Workers?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cloudflare Workers to platforma serverless oparta na izolacjach v8 — tym samym silniku JavaScript, który napędza Chrome. W przeciwieństwie do AWS Lambda, Workers nie mają zimnych startów — uruchamiają się w milisekundach. Działają na ponad 300 lokalizacjach edge na całym świecie, co oznacza, że twoja strona jest serwowana z najbliższego centrum danych do użytkownika. Czas odpowiedzi to dosłownie opóźnienie sieciowe do najbliższego węzła edge."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Stack technologiczny EmDash na Cloudflare"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash na Cloudflare korzysta z trzech głównych usług: "
+								},
+								{
+									"_type": "span",
+									"text": "Workers",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " (logika aplikacji i renderowanie stron), "
+								},
+								{
+									"_type": "span",
+									"text": "D1",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " (baza danych SQLite na edge) i "
+								},
+								{
+									"_type": "span",
+									"text": "R2",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " (storage obiektowy dla mediów, kompatybilny z S3). Cały ten stack skaluje się automatycznie — od zera do milionów żądań — i płacisz tylko za faktyczne użycie CPU. Gdy strona nie ma ruchu, koszt wynosi zero."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Wydajność na krawędzi sieci"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Dzięki architekturze edge, EmDash serwuje strony z lokalizacji najbliższej użytkownikowi. Użytkownik z Warszawy dostaje odpowiedź z europejskiego datacenter Cloudflare, nie z serwera w Stanach Zjednoczonych. To przekłada się na znacznie lepsze Core Web Vitals — szczególnie Time to First Byte (TTFB), który jest krytyczny dla SEO. W praktyce strony na EmDash + Cloudflare Workers ładują się błyskawicznie, co przekłada się na lepsze pozycje w Google i wyższy współczynnik konwersji."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"technologia"
+					],
+					"tag": [
+						"emdash",
+						"cloudflare",
+						"serverless"
+					]
+				}
+			},
+			{
+				"id": "post-6",
+				"slug": "migracja-z-wordpress-do-emdash",
+				"status": "published",
+				"data": {
+					"title": "Migracja z WordPress do EmDash CMS — praktyczny poradnik",
+					"excerpt": "Jak przenieść stronę z WordPress do EmDash CMS? Omawiamy eksport treści, migrację mediów, mapowanie typów postów i najczęstsze pułapki.",
+					"featured_image": "https://images.unsplash.com/photo-1506485338023-6ce5f36692df?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Przeniesienie strony z WordPress do EmDash CMS może wydawać się dużym przedsięwzięciem, ale Cloudflare zadbał o to, by proces był możliwie prosty. EmDash oferuje dedykowane narzędzia migracji, które automatyzują większość pracy. Oto jak to zrobić krok po kroku."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Eksport danych z WordPress"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash obsługuje import plików WXR (WordPress eXtended RSS) — standardowy format eksportu WordPress. Aby wyeksportować dane, wejdź w panel WordPress → Narzędzia → Eksport i pobierz plik XML z całą treścią. Dla stron na WordPress.com dostępna jest wtyczka "
+								},
+								{
+									"_type": "span",
+									"text": "EmDash Exporter",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": ", która zapewnia bezpieczny eksport z uwzględnieniem mediów i metadanych."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Mapowanie treści"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Narzędzie migracji automatycznie mapuje typy postów WordPress na kolekcje EmDash. Posty stają się wpisami w kolekcji «posts», strony trafiają do «pages», a custom post types są konwertowane na dedykowane kolekcje. Kategorie i tagi zostają zachowane jako taksonomie. Biblioteka mediów jest automatycznie migrowana do storage R2 na Cloudflare. Treść bloków Gutenberg jest konwertowana na format Portable Text, który EmDash używa natywnie."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Na co uważać?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Największe wyzwanie to wtyczki — funkcje realizowane przez wtyczki WordPress (formularze kontaktowe, SEO, cache) wymagają odpowiedników w ekosystemie EmDash. Marketplace EmDash rośnie, ale jeszcze nie ma tylu opcji co WordPress. Warto też pamiętać o przekierowaniach URL-i — struktura adresów może się różnić. Zaplanuj przekierowania 301 przed migracją, aby nie stracić pozycji w wyszukiwarkach. Dla skomplikowanych migracji z niestandardowymi blokami, EmDash oferuje Block Kit Agent Skill, który wspiera konwersję z pomocą AI."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"poradniki"
+					],
+					"tag": [
+						"emdash",
+						"wordpress",
+						"migracja"
+					]
+				}
+			},
+			{
+				"id": "post-7",
+				"slug": "emdash-open-source-licencja-mit",
+				"status": "published",
+				"data": {
+					"title": "EmDash CMS — open source na licencji MIT. Co to oznacza dla deweloperów?",
+					"excerpt": "EmDash CMS jest w pełni open source na licencji MIT — bardziej liberalnej niż GPL WordPress. Wyjaśniamy, co to oznacza w praktyce i dlaczego ma to znaczenie.",
+					"featured_image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash CMS jest «fully open source, MIT licensed» — tak opisuje go sam Cloudflare. Ale co to tak naprawdę oznacza i dlaczego wybór licencji MIT zamiast GPL (używanej przez WordPress) to istotna decyzja? Omówmy to z perspektywy dewelopera i firmy budującej produkty na tym CMS-ie."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "MIT vs GPL — kluczowe różnice"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Licencja "
+								},
+								{
+									"_type": "span",
+									"text": "GPL (General Public License)",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": ", którą używa WordPress, wymaga, aby wszelkie dzieła pochodne (w tym wtyczki i motywy) były również dystrybuowane na GPL. To oznacza, że nie możesz stworzyć wtyczki WordPress i sprzedawać jej jako zamknięte źródło — musisz udostępnić kod. Licencja "
+								},
+								{
+									"_type": "span",
+									"text": "MIT",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " jest znacznie bardziej liberalna — pozwala na dowolne użycie, modyfikację i dystrybucję, bez obowiązku ujawniania kodu źródłowego. Możesz budować komercyjne wtyczki, zamknięte motywy i produkty SaaS na bazie EmDash bez żadnych ograniczeń licencyjnych."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Co to oznacza dla ekosystemu?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Liberalna licencja otwiera drzwi dla firm, które wcześniej nie chciały inwestować w ekosystem WordPress ze względu na ograniczenia GPL. Producenci oprogramowania mogą tworzyć premium wtyczki z zamkniętym kodem. Agencje mogą budować niestandardowe rozwiązenia dla klientów bez obaw o naruszenie licencji. Startup może zbudować produkt SaaS na bazie EmDash i nie musi udostępniać swojego kodu. W połączeniu z sandboxowanymi wtyczkami — gdzie kod i tak działa w izolacji — daje to zupełnie nowy model ekosystemu CMS."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Jak kontrybuować?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash jest dostępny na GitHubie i aktywnie przyjmuje kontrybucje od społeczności. Możesz zgłaszać błędy, proponować funkcje, tworzyć pull requesty lub pisać wtyczki i motywy. Cloudflare zachęca do kontaktu przez emdash@cloudflare.com lub bezpośrednio przez GitHub Issues. Projekt jest w fazie early developer beta, więc teraz jest idealny moment, aby włączyć się w rozwój i mieć realny wpływ na kształt następcy WordPress."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"technologia"
+					],
+					"tag": [
+						"emdash",
+						"open-source"
+					]
+				}
+			},
+			{
+				"id": "post-8",
+				"slug": "wtyczki-emdash-cms",
+				"status": "published",
+				"data": {
+					"title": "Wtyczki w EmDash CMS — jak działają i czym różnią się od WordPress?",
+					"excerpt": "System wtyczek EmDash CMS to rewolucja w porównaniu z WordPress. Sandboxowane środowiska, deklarowane uprawnienia i izolacja sieciowa — oto nowy standard.",
+					"featured_image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Wtyczki to serce każdego CMS-u — pozwalają rozszerzać funkcjonalność bez modyfikacji kodu bazowego. Ale sposób, w jaki wtyczki działają w EmDash CMS, jest radykalnie inny niż w WordPress. To nie jest ewolucja — to całkowite przeprojektowanie koncepcji wtyczek od zera."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Anatomia wtyczki EmDash"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Wtyczka EmDash to pakiet TypeScript zdefiniowany za pomocą funkcji definePlugin(). Każda wtyczka może zawierać: "
+								},
+								{
+									"_type": "span",
+									"text": "hooki",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " (reagowanie na zdarzenia cyklu życia treści), "
+								},
+								{
+									"_type": "span",
+									"text": "storage",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " (własna przestrzeń danych), "
+								},
+								{
+									"_type": "span",
+									"text": "ustawienia",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " (konfiguracja w admin panelu), niestandardowe strony administracyjne, trasy API i bloki Portable Text. Rejestruje się ją w pliku astro.config.mjs — albo jako zwykłą wtyczkę (plugins), albo jako sandboxowaną (sandboxed) dla maksymalnej izolacji."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Sandboxowane vs zwykłe wtyczki"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash oferuje dwa tryby uruchamiania wtyczek. Wtyczki zwykłe (plugins) działają w tym samym procesie co aplikacja — mają pełny dostęp do kontekstu, ale są zaufane. Wtyczki sandboxowane (sandboxed) działają w izolowanych Dynamic Workers — muszą zadeklarować uprawnienia w manifeście i nie mogą wyjść poza przyznane możliwości. W praktyce: wtyczki od zaufanych źródeł (np. oficjalne) można uruchamiać jako zwykłe, a wtyczki trzecie warto sandboxować dla bezpieczeństwa."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Marketplace i przyszłość ekosystemu"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash buduje własny marketplace wtyczek (marketplace.emdashcms.com), gdzie deweloperzy mogą publikować swoje rozwiązenia. Dzięki licencji MIT wtyczki mogą mieć dowolną licencję — open source lub komercyjną. Marketplace integruje się z systemem uprawnień: przy instalacji widzisz dokładnie, jakich dostępów potrzebuje wtyczka. To zupełnie inne podejście niż marketplace WordPress, gdzie musisz zaufać deweloperowi «na słowo»."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"technologia"
+					],
+					"tag": [
+						"emdash",
+						"wtyczki",
+						"wordpress"
+					]
+				}
+			},
+			{
+				"id": "post-9",
+				"slug": "emdash-sztuczna-inteligencja-ai",
+				"status": "published",
+				"data": {
+					"title": "EmDash CMS i sztuczna inteligencja — co potrafi AI-native CMS?",
+					"excerpt": "EmDash CMS został zaprojektowany z myślą o AI od samego początku. Agent Skills, MCP server i CLI dla agentów AI — oto jak EmDash integruje się z AI.",
+					"featured_image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "WordPress powstał w 2003 roku — na długo przed erą sztucznej inteligencji. Integracja AI z WordPress wymaga wtyczek, hacków i zewnętrznych usług. "
+								},
+								{
+									"_type": "span",
+									"text": "EmDash CMS jest AI-native",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — obsługa agentów AI jest wbudowana w rdzeń systemu. Co to oznacza w praktyce?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agent Skills — AI rozumie twój CMS"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash zawiera wbudowane Agent Skills — dokumenty opisujące strukturę CMS-u, dostępne API i wzorce tworzenia wtyczek. Dzięki nim agenci AI (jak Claude, GPT czy inne LLM-y) mogą zrozumieć architekturę twojej strony i pomagać w jej budowie, konfiguracji i rozwiązywaniu problemów. To nie jest generyczny chatbot — agent AI «wie», jak działa EmDash i jak budować na nim strony."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "MCP Server i CLI dla agentów"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash obsługuje "
+								},
+								{
+									"_type": "span",
+									"text": "Model Context Protocol (MCP)",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — standard komunikacji między agentami AI a narzędziami. Dzięki temu agenci mogą programatycznie zarządzać treścią: tworzyć wpisy, edytować strony, przesyłać media, zarządzać kolekcjami i schematem. CLI EmDash (npx emdash) umożliwia wykonywanie tych operacji z linii poleceń, co sprawia, że automatyzacja zadań CMS z poziomu skryptów AI jest trywialna."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Praktyczne zastosowania AI w EmDash"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Dzięki natywnej obsłudze AI możesz: automatycznie migrować treść z WordPress z konwersją niestandardowych bloków, generować opisy SEO i alt-tagi do obrazków, tworzyć szkice wpisów na podstawie notatek, budować motywy i wtyczki z pomocą agenta AI, a nawet zarządzać całą stroną z poziomu konwersacji z chatbotem. Cloudflare stawia na to, że przyszłość zarządzania treścią to symbioza ludzi i AI — a EmDash jest platformą zaprojektowaną pod ten model współpracy."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"technologia"
+					],
+					"tag": [
+						"emdash",
+						"ai"
+					]
+				}
+			},
+			{
+				"id": "post-10",
+				"slug": "monetyzacja-tresci-x402-emdash",
+				"status": "published",
+				"data": {
+					"title": "Monetyzacja treści w EmDash CMS — protokół x402 i natywne płatności",
+					"excerpt": "EmDash CMS ma wbudowaną obsługę płatności za treści przez protokół x402. Pay-per-use bez subskrypcji, bez programowania — to przełom dla twórców treści.",
+					"featured_image": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Jak zarabiać na treściach w internecie? Tradycyjne modele to reklamy, subskrypcje lub paywall. Każdy z nich ma wady — reklamy obniżają jakość doświadczenia, subskrypcje wymagają zobowiązania od czytelnika, a paywall jest trudny do wdrożenia technicznie. EmDash CMS wprowadza "
+								},
+								{
+									"_type": "span",
+									"text": "protokół x402",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — otwarty standard natywnych płatności internetowych, który zmienia zasady gry."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Czym jest protokół x402?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "x402 to otwarty standard oparty na kodzie statusu HTTP 402 Payment Required — kodzie, który istnieje w specyfikacji HTTP od początku, ale nigdy nie został szeroko wykorzystany. Protokół x402 definiuje sposób, w jaki serwer może zażądać płatności za dostęp do treści, a przeglądarka (lub klient) może tę płatność zrealizować bez przekierowań do zewnętrznych systemów płatności."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Pay-per-use zamiast subskrypcji"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Największa zaleta x402 w EmDash to model "
+								},
+								{
+									"_type": "span",
+									"text": "pay-per-use",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — czytelnik płaci tylko za treść, którą chce przeczytać, bez konieczności wykupywania subskrypcji. Jako twórca treści nie musisz programować systemu płatności — EmDash obsługuje to natywnie. Wystarczy oznaczyć wpis jako płatny i określić cenę. To otwiera monetyzację dla twórców, którzy nie mają zespołu technicznego do wdrożenia paywall."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Co to oznacza dla polskich twórców?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Dla polskich blogerów, dziennikarzy i twórców treści premium, x402 w EmDash to szansa na monetyzację bez pośredników. Nie potrzebujesz Patreon, Substack ani WooCommerce — płatności są natywną częścią CMS-u. Protokół jest wciąż w fazie wczesnej, ale sam fakt, że Cloudflare buduje go jako standard internetowy, daje mu ogromne szanse na szeroką adopcję. Warto śledzić rozwój x402, bo może to zmienić sposób, w jaki zarabiamy na treściach w sieci."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"technologia"
+					],
+					"tag": [
+						"emdash"
+					]
+				}
+			},
+			{
+				"id": "post-11",
+				"slug": "architektura-emdash-typescript-astro",
+				"status": "published",
+				"data": {
+					"title": "Architektura EmDash CMS — TypeScript, Astro i nowoczesny stack technologiczny",
+					"excerpt": "Zaglądamy pod maskę EmDash CMS: TypeScript, Astro 6.0, Portable Text, D1, R2 — jak te technologie współpracują, by tworzyć nowoczesny CMS?",
+					"featured_image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash CMS nie jest kolejnym CMS-em napisanym «na szybko». Jego architektura jest przemyślana od podstaw, by wykorzystać najlepsze narzędzia nowoczesnego web developmentu. Zaglądamy pod maskę i wyjaśniamy, dlaczego wybrane zostały właśnie te technologie."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "TypeScript — bezpieczeństwo typów od A do Z"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cały EmDash jest napisany w "
+								},
+								{
+									"_type": "span",
+									"text": "TypeScript",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — od rdzenia CMS, przez wtyczki, po motywy. To oznacza, że błędy typów są wykrywane na etapie kompilacji, a nie w produkcji. Komenda npx emdash types generuje typy TypeScript na podstawie schematu bazy danych, więc IDE podpowiada ci dokładne pola i typy danych twoich kolekcji. Jeśli twój seed definiuje pole «title» typu string — TypeScript wie o tym i nie pozwoli ci traktować go jako number."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Astro 6.0 — framework zoptymalizowany pod treść"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash jest zbudowany na frameworku "
+								},
+								{
+									"_type": "span",
+									"text": "Astro",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — specjalnie zaprojektowanym do budowy stron opartych na treści. Astro domyślnie generuje czysty HTML bez JavaScriptu — interaktywne komponenty (np. React) są ładowane tylko tam, gdzie są potrzebne (architektura «islands»). To przekłada się na minimalny rozmiar stron i doskonałą wydajność. W EmDash motywy to po prostu projekty Astro — z routami, layoutami, komponentami i stylami. Jeśli znasz Astro, znasz już większość EmDash."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Portable Text — treść jako strukturalne dane"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Zamiast HTML-a (jak WordPress) EmDash przechowuje treść w formacie "
+								},
+								{
+									"_type": "span",
+									"text": "Portable Text",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — strukturalnym JSON-ie, gdzie każdy akapit, nagłówek, blok kodu czy cytat jest osobnym obiektem z typem i metadanymi. To daje ogromną elastyczność: ta sama treść może być renderowana jako HTML na stronie, markdown w RSS, czy czysty tekst w powiadomieniu email. Edytor w admin panelu pracuje natywnie w Portable Text, więc twórcy treści nigdy nie widzą surowego JSON-a — mają wygodny edytor WYSIWYG."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Baza danych i storage"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Na Cloudflare EmDash używa D1 (SQLite na edge) jako bazy danych i R2 (object storage kompatybilny z S3) do przechowywania mediów. Lokalnie można używać zwykłej bazy SQLite. Schema jest przechowywana w bazie danych (nie w kodzie) — co oznacza, że możesz zmieniać strukturę kolekcji z poziomu admin panelu bez modyfikowania kodu. Plik seed.json definiuje początkową strukturę i zawartość, ale potem schema żyje w bazie i może ewoluować niezależnie."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"technologia"
+					],
+					"tag": [
+						"emdash",
+						"typescript",
+						"astro"
+					]
+				}
+			},
+			{
+				"id": "post-12",
+				"slug": "przyszlosc-cms-emdash",
+				"status": "published",
+				"data": {
+					"title": "Dlaczego EmDash CMS to przyszłość zarządzania treścią w internecie?",
+					"excerpt": "Od PHP do serverless, od luk w wtyczkach do sandboxów, od ręcznego zarządzania do AI — EmDash CMS to wizja przyszłości CMS. Oto dlaczego.",
+					"featured_image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=800&fit=crop",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "WordPress ma ponad 20 lat. To fenomenalne osiągnięcie — niewiele projektów open source przetrwało tak długo na szczycie. Ale internet w 2025 roku wygląda zupełnie inaczej niż w 2003, kiedy WordPress powstawał. Serwery fizyczne ustąpiły miejsca chmurze. Statyczne strony wróciły w nowej formie. AI stało się narzędziem codziennej pracy. I powstał EmDash CMS — system zaprojektowany od zera pod te nowe realia."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Lekcje z przeszłości"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "EmDash nie jest forkiem WordPress — jest odpowiedzią na jego problemy. Cloudflare przeanalizował dwie dekady doświadczeń z WordPress i zidentyfikował fundamentalne problemy: niebezpieczne wtyczki, monolityczna architektura, brak natywnych płatności, trudna skalowalność. Zamiast łatać istniejący system, stworzyli nowy — korzystając z wiedzy, czego nie robić. To świadoma decyzja: lepiej zbudować od zera, niż ciągnąć techniczny dług kolejne 20 lat."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Trzy filary nowego CMS-u"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Pierwszy filar to "
+								},
+								{
+									"_type": "span",
+									"text": "bezpieczeństwo",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — sandboxowane wtyczki, passkey zamiast haseł, izolacja sieciowa. Drugi filar to "
+								},
+								{
+									"_type": "span",
+									"text": "wydajność",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — serverless na edge, zero zimnych startów, automatyczne skalowanie. Trzeci filar to "
+								},
+								{
+									"_type": "span",
+									"text": "AI-native design",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": " — wbudowane Agent Skills, MCP server, CLI dla agentów. Te trzy filary tworzą fundament, na którym można budować przyszłość zarządzania treścią — nie tylko strony internetowe, ale całe platformy treściowe z płatnościami, automatyzacją i inteligentnym zarządzaniem."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Czy EmDash zastąpi WordPress?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Nie od razu — i prawdopodobnie nie całkowicie. WordPress ma ogromny ekosystem, miliony stron i społeczność, która go rozwija. Ale EmDash wyznacza kierunek, w którym zmierza branża CMS. Za 5 lat będziemy oczekiwać od CMS-u bezpiecznych wtyczek, natywnych płatności i integracji z AI jako standardu. EmDash jest pierwszy, który te oczekiwania spełnia już dziś. Dla nowych projektów, szczególnie tych stawiających na bezpieczeństwo i nowoczesny stack — EmDash jest naturalnym wyborem. I to jest przyszłość."
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "byline-mateusz"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"wprowadzenie"
+					],
+					"tag": [
+						"emdash",
+						"serverless",
+						"ai"
+					]
+				}
+			}
+		]
+	}
+}

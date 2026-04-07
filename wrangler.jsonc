@@ -1,0 +1,37 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "emdash-cms-pl",
+	"main": "./src/worker.ts",
+	"compatibility_date": "2026-03-29",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"directory": "./dist",
+	},
+	"kv_namespaces": [
+		{
+			"binding": "SESSION",
+			"id": "17e6de7e92fb4d6db3398144158bc6f3"
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "emdash-cms-pl",
+			"database_id": "02c1166e-3ad4-476b-b4e8-3df7a67afdaa"
+		},
+	],
+	"r2_buckets": [
+		{
+			"binding": "MEDIA",
+			"bucket_name": "emdash-cms-pl-media",
+		},
+	],
+	"routes": [
+		{ "pattern": "emdashcms.pl", "custom_domain": true }
+	],
+	"observability": {
+		"enabled": true,
+	},
+}
