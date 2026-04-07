@@ -3,6 +3,7 @@ import {
 	getEmDashEntry,
 	getEmDashCollection,
 	getEntryTerms,
+	getTermsForEntries,
 	getSeoMeta,
 } from "emdash";
 import {
@@ -76,15 +77,15 @@ const bylines = post.data.bylines ?? [];
 const readingTime = getReadingTime(post.data.content);
 const otherPosts = recentPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
-// Parallel: fetch tags for all related posts at once
-const otherPostsWithTags = await timed(Astro.locals, "D1:related-tags", () =>
-	Promise.all(
-		otherPosts.map(async (p) => {
-			const postTags = await getEntryTerms("posts", p.data.id, "tag");
-			return { post: p, tags: postTags, bylines: p.data.bylines ?? [] };
-		})
-	)
+// Batch: fetch tags for all related posts in a single query
+const relatedTagsMap = await timed(Astro.locals, "D1:related-tags", () =>
+	getTermsForEntries("posts", otherPosts.map((p) => p.data.id), "tag")
 );
+const otherPostsWithTags = otherPosts.map((p) => ({
+	post: p,
+	tags: relatedTagsMap.get(p.data.id) ?? [],
+	bylines: p.data.bylines ?? [],
+}));
 
 const publishDate =
 	post.data.publishedAt?.toLocaleDateString("pl-PL", {
