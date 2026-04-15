@@ -3,7 +3,7 @@
 Full measurement artifacts from the benchmark published on SHIFT64:
 
 - **Article:** [I Bought the Domain Before I Ran the Test. EmDash Still Lost to WordPress.](https://shift64.com/blog/emdash-cms-vs-wordpress-honest-benchmark)
-- **WordPress comparison theme repo:** [shift64-wp-theme-emdash-flavor](https://github.com/shift64/shift64-wp-theme-emdash-flavor)
+- **WordPress comparison theme repo:** [shift64-wp-theme-emdash-flavor](https://github.com/mateusz-zadorozny/shift64-wp-theme-emdash-flavor)
 - **Parent repo README:** [`../README.md`](../README.md) — describes what was learned from the EmDash side (cache hints, `server:defer` gotcha, undocumented batch API, custom-domain CDN cache bypass, D1 latency floor)
 
 ## What is in here
@@ -22,7 +22,7 @@ On any Linux VPS with `curl`, `bash`, and cron:
 
 ```bash
 # 1. Clone this repo
-git clone https://github.com/shift64/shift64-emdash-cms-benchmark.git
+git clone https://github.com/mateusz-zadorozny/shift64-emdash-cms-benchmark.git
 cd shift64-emdash-cms-benchmark/benchmark
 
 # 2. Edit bench.sh to point at your two test URLs
