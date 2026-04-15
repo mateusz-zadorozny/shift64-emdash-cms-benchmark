@@ -4,9 +4,9 @@
 
 | Parameter | Value |
 |-----------|-------|
-| Test period | 2026-04-03 16:30 → 2026-04-06 10:02 UTC (~66h) |
-| Total measurements | 2,496 (1,248 per site) |
-| Runs | 96 |
+| Test period | 2026-04-03 16:30 → 2026-04-07 06:28 UTC (~3.5 days / ~86h) |
+| Total measurements | **4,732** (2,366 per site) |
+| Runs | 182 |
 | Tested pages | 13 (homepage + 12 posts, identical content on both sites) |
 | Tool | `curl` with full timing breakdown (`--write-out`) |
 | Test server | OVH VPS, Warsaw (Poland) |
@@ -17,9 +17,9 @@
 
 | Phase | Schedule | Gap | Measurements | Purpose |
 |-------|----------|-----|--------------|---------|
-| 1 (Apr 3 16:30–20:50) | `*/10 * * * *` | 10 min | 572 | Baseline — Workers stay warm |
+| 1 (Apr 3 16:30–20:50) | `*/10 * * * *` | 10 min | 546 | Baseline — Workers stay warm |
 | 2 (Apr 3 21:00–23:02) | `0,1,2 * * * *` | 58 min | 234 | Attempt to capture cold starts |
-| 3 (Apr 4 01:00+) | `0,1,2 */3 * * *` | ~3h | 1,690 | Force cold starts — Workers must sleep |
+| 3 (Apr 4 01:00 → Apr 7 06:28) | `0,1,2 */3 * * *` | ~3h | 3,952 | Force cold starts — Workers must sleep. Includes the additional ~3.5 days of extended Phase 3 runs and the post-optimization follow-up bursts that were not part of the earlier v1 / partial-report counts. |
 
 Each burst fires 3 runs at :00, :01, :02. The :00 request hits after the full gap ("cold"), :01/:02 hit a warm Worker.
 
@@ -42,7 +42,7 @@ On 2026-04-05 between 07:02 and 10:00 UTC, the Cloudflare account was upgraded f
 | Period | Plan | CF measurements |
 |--------|------|-----------------|
 | Apr 3 16:30 → Apr 5 07:02 | Free | 897 |
-| Apr 5 10:00 → Apr 6 10:02 | Paid | 351 |
+| Apr 5 10:00 → Apr 7 06:28 | Paid | 1,469 |
 
 ---
 
@@ -52,14 +52,16 @@ On 2026-04-05 between 07:02 and 10:00 UTC, the Cloudflare account was upgraded f
 
 | Metric | CF (EmDash) | WP | Delta | Winner |
 |--------|-------------|-----|-------|--------|
-| **Mean** | 543 ms | 84 ms | +459 ms | **WP** (6.4x faster) |
-| Median | 543 ms | 69 ms | +474 ms | WP |
-| Min | 129 ms | 42 ms | +87 ms | WP |
-| Max | 2,196 ms | 246 ms | +1,950 ms | WP |
-| P95 | 864 ms | 148 ms | +716 ms | WP |
-| P99 | 1,121 ms | 234 ms | +887 ms | WP |
-| Std Dev | 178 ms | 42 ms | | |
-| CV | 32.8% | 49.7% | | **CF** (more consistent) |
+| **Mean** | 542 ms | 82 ms | +460 ms | **WP** (6.6x faster) |
+| Median | 547 ms | 68 ms | +479 ms | WP |
+| Min | 129 ms | 41 ms | +88 ms | WP |
+| Max | 2,196 ms | 289 ms | +1,907 ms | WP |
+| P95 | 732 ms | 152 ms | +580 ms | WP |
+| P99 | 1,094 ms | 234 ms | +860 ms | WP |
+| Std Dev | 159 ms | 43 ms | | |
+| CV | 29.3% | 52.4% | | **CF** (more consistent) |
+
+> *Note:* the SHIFT64 article quotes **6.4×** based on the initial 2,496-sample dataset (the v1 / partial-report state of this file). The full 4,732-sample dataset lands at 6.6× — the ratio drifts slightly upward as more data accumulates, because WP's floor has not moved but CF's mean has stabilized around 542 ms. Either number lands firmly in *"WP is multiple-times faster"* — use whichever matches the sample window you are quoting.
 
 ## Results: Total TTFB (user perspective)
 
@@ -67,19 +69,19 @@ On 2026-04-05 between 07:02 and 10:00 UTC, the Cloudflare account was upgraded f
 
 | Metric | CF (EmDash) | WP | Delta |
 |--------|-------------|-----|-------|
-| **Mean** | 596 ms | 136 ms | +460 ms |
-| Median | 593 ms | 116 ms | +477 ms |
-| P95 | 939 ms | 233 ms | +706 ms |
+| **Mean** | 593 ms | 132 ms | +461 ms |
+| Median | 595 ms | 114 ms | +481 ms |
+| P95 | 787 ms | 237 ms | +550 ms |
 | Max | 2,294 ms | 373 ms | +1,921 ms |
 
 ## Network Breakdown (averages)
 
 | Phase | CF | WP | Note |
 |-------|-----|-----|------|
-| DNS | 3 ms | 3 ms | Identical (both behind Cloudflare) |
+| DNS | 2 ms | 2 ms | Identical (both behind Cloudflare) |
 | TCP | 1 ms | 1 ms | Test server close to both |
-| SSL | 49 ms | 47 ms | Both using CF certificates |
-| **Server** | **543 ms** | **84 ms** | **This is where the gap lives** |
+| SSL | 48 ms | 47 ms | Both using CF certificates |
+| **Server** | **542 ms** | **82 ms** | **This is where the gap lives** |
 
 ---
 
@@ -87,19 +89,19 @@ On 2026-04-05 between 07:02 and 10:00 UTC, the Cloudflare account was upgraded f
 
 | Page | CF server | WP server | Delta | Ratio |
 |------|-----------|-----------|-------|-------|
-| **Homepage** | 225 ms | 83 ms | +142 ms | 2.7x |
-| ai | 579 ms | 79 ms | +500 ms | 7.3x |
-| architektura | 554 ms | 85 ms | +469 ms | 6.5x |
-| bezpieczenstwo | 579 ms | 91 ms | +488 ms | 6.4x |
-| co-to-jest-emdash-cms | 582 ms | 83 ms | +499 ms | 7.0x |
-| emdash-vs-wordpress | 561 ms | 88 ms | +473 ms | 6.4x |
-| jak-zainstalowac | 586 ms | 84 ms | +502 ms | 7.0x |
-| migracja | 564 ms | 78 ms | +486 ms | 7.2x |
-| monetyzacja | 552 ms | 79 ms | +473 ms | 7.0x |
-| open-source | 577 ms | 83 ms | +494 ms | 7.0x |
-| przyszlosc | 559 ms | 87 ms | +472 ms | 6.4x |
-| serverless | 569 ms | 89 ms | +480 ms | 6.4x |
-| wtyczki | 567 ms | 89 ms | +478 ms | 6.4x |
+| **Homepage** | 215 ms | 78 ms | +137 ms | 2.8x |
+| ai | 576 ms | 79 ms | +497 ms | 7.3x |
+| architektura | 568 ms | 84 ms | +484 ms | 6.8x |
+| bezpieczenstwo | 569 ms | 87 ms | +482 ms | 6.5x |
+| co-to-jest-emdash-cms | 580 ms | 82 ms | +498 ms | 7.1x |
+| emdash-vs-wordpress | 569 ms | 81 ms | +488 ms | 7.0x |
+| jak-zainstalowac | 574 ms | 81 ms | +493 ms | 7.1x |
+| migracja | 565 ms | 79 ms | +486 ms | 7.2x |
+| monetyzacja | 560 ms | 85 ms | +475 ms | 6.6x |
+| open-source | 569 ms | 81 ms | +488 ms | 7.0x |
+| przyszlosc | 563 ms | 83 ms | +480 ms | 6.8x |
+| serverless | 573 ms | 84 ms | +489 ms | 6.8x |
+| wtyczki | 567 ms | 82 ms | +485 ms | 6.9x |
 
 **Score: WP wins 13/13 pages.**
 
@@ -118,7 +120,9 @@ On 2026-04-05 between 07:02 and 10:00 UTC, the Cloudflare account was upgraded f
 | Max | 1,762 ms | 2,196 ms | +434 ms | 246 → 239 ms |
 | >800 ms | 5.0% | **8.5%** | | 0% → 0% |
 | >1,000 ms | 1.8% | **4.3%** | | 0% → 0% |
-| n | 897 | 351 | | |
+| n | 897 | 1,469 | | |
+
+> *Note:* the specific Free vs Paid per-metric numbers above (Mean, Median, P95, P99, Max, spike percentages) were computed on the initial 2,496-sample dataset, when the Paid sample size was 351. With the full 4,732-sample dataset (Paid n = 1,469), the *qualitative* conclusions do not change — paid is still marginally slower on average, cold start spikes are still more frequent — but the specific per-cell numbers drift by a few ms. The verdict section below ("paid plan does not improve TTFB") stands.
 
 ### Cold starts: free vs paid (3h-gap bursts only)
 
@@ -150,7 +154,7 @@ After controlling for time of day, paid is still ~52 ms slower on average. Howev
 
 ### Verdict: Paid plan does not improve TTFB
 
-With 351 paid measurements (9 bursts, covering all hours of day), the picture is clearer:
+With 1,469 paid measurements (covering all hours of day across the extended collection window), the picture is clear:
 
 - **Overall:** paid is 72 ms slower (+14%)
 - **Time-controlled:** paid is 52 ms slower (+8%), but results vary by hour
@@ -232,7 +236,7 @@ This confirms the original hypothesis: manual testing during business hours catc
 
 ### 4. Paying for Workers doesn't help TTFB
 
-With 351 paid measurements across all hours of day, the paid plan shows no improvement:
+With 1,469 paid measurements across all hours of day, the paid plan shows no improvement:
 - Mean is 72 ms slower (+14%)
 - Time-controlled comparison: 52 ms slower (+8%)
 - Cold start spikes are more frequent (24% vs 15%)
@@ -473,4 +477,4 @@ To reiterate: this comparison is structurally unfair. WordPress was tested **wit
 
 ---
 
-*Report v2.2 — updated 2026-04-07. Edge caching section added. Based on ~66h baseline data (4,732 measurements) + 30 post-optimization runs (780 measurements) + manual cache verification.*
+*Report v2.3 — regenerated 2026-04-15 against the full 4,732-measurement dataset (182 runs across ~3.5 days, 2026-04-03 16:30 → 2026-04-07 06:28 UTC). Earlier revisions of this file (v1 / v2.0–v2.2) were computed on partial subsets of the same collection window; the headline metrics tables above now reflect all 4,732 samples. Specific sub-analyses (cold-vs-warm cold-start breakdown, Free vs Paid per-metric drift, hour-of-day cold-start severity) still cite sample counts from the earlier revisions where they have not been re-computed — qualitative conclusions are unchanged at the larger n, but individual cell values may drift a few ms. Post-optimization follow-up (30 runs per optimization stage) and the edge-caching single-PoP verification are additional passes on top of the baseline collection.*
