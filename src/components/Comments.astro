@@ -19,11 +19,14 @@ const {
 	class: className,
 } = Astro.props;
 
-const collectionInfo = await getCollectionInfo(collection);
+// Fetch the comments together with the collection info rather than after it.
+// If comments turn out to be disabled, the result is simply not rendered.
+const [collectionInfo, comments] = await Promise.all([
+	getCollectionInfo(collection),
+	getComments({ collection, contentId, threaded }),
+]);
 const enabled = collectionInfo?.commentsEnabled ?? false;
-const { items, total } = enabled
-	? await getComments({ collection, contentId, threaded })
-	: { items: [], total: 0 };
+const { items, total } = enabled ? comments : { items: [], total: 0 };
 
 const URL_RE = /https?:\/\/[^\s<>"')\]]+/g;
 const AMP_RE = /&/g;

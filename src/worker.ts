@@ -1,6 +1,21 @@
 import handler from "@astrojs/cloudflare/entrypoints/server";
 import { createScheduledHandler } from "@emdash-cms/cloudflare/worker";
+import { APP_TIMING_HEADER } from "./utils/timing";
 export { PluginBridge } from "@emdash-cms/cloudflare/sandbox";
+
+/**
+ * Render through Astro, then append src/middleware.ts's query timings to the
+ * Server-Timing header EmDash wrote (see APP_TIMING_HEADER).
+ */
+const render: typeof handler.fetch = async (request, env, ctx) => {
+	const response = await handler.fetch(request, env, ctx);
+	const appTiming = response.headers.get(APP_TIMING_HEADER);
+	if (appTiming) {
+		response.headers.delete(APP_TIMING_HEADER);
+		response.headers.append("Server-Timing", appTiming);
+	}
+	return response;
+};
 
 /**
  * Wrap the Astro handler with Cloudflare Cache API.
@@ -36,18 +51,18 @@ export default {
 	async fetch(request: Request, env: unknown, ctx: ExecutionContext): Promise<Response> {
 		// Only cache GET requests
 		if (request.method !== "GET") {
-			return handler.fetch(request, env, ctx);
+			return render(request, env, ctx);
 		}
 
 		const url = new URL(request.url);
 
 		// Skip cache for admin, API, and preview routes
 		if (url.pathname.startsWith("/_emdash") || url.pathname.startsWith("/api")) {
-			return handler.fetch(request, env, ctx);
+			return render(request, env, ctx);
 		}
 
 		if (hasBypassCookie(request)) {
-			return handler.fetch(request, env, ctx);
+			return render(request, env, ctx);
 		}
 
 		const cacheKey = new Request(cacheKeyUrl(url), {
@@ -66,7 +81,7 @@ export default {
 			return hit;
 		}
 
-		const response = await handler.fetch(request, env, ctx);
+		const response = await render(request, env, ctx);
 
 		// Only cache responses that have our s-maxage header (set by middleware)
 		const cacheControl = response.headers.get("Cache-Control");

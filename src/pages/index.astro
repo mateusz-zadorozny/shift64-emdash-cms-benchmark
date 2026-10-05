@@ -3,8 +3,11 @@ import { getEmDashCollection, getTermsForEntries } from "emdash";
 import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import PostCard from "../components/PostCard.astro";
+import { preloadLayoutData } from "../utils/layout-data";
 import { getReadingTime } from "../utils/reading-time";
 import { timed } from "../utils/timing";
+
+preloadLayoutData(Astro.locals);
 
 const { entries: posts, cacheHint } = await timed(Astro.locals, "D1:posts", () => getEmDashCollection("posts"));
 

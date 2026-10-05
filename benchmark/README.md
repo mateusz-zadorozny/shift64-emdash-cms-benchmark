@@ -15,6 +15,8 @@ Full measurement artifacts from the benchmark published on SHIFT64:
 | [`bench.sh`](./bench.sh) | The cron-scheduled bash collector that produced `results.csv`. Uses `curl --write-out` for full phase-by-phase timing breakdown (DNS / TCP / SSL / server / total TTFB), randomizes URL order per run, spawns a fresh `curl` process per URL to eliminate keep-alive and client-cache effects. |
 | [`analyze.py`](./analyze.py) | Python analyzer that consumes `results.csv` and produces the percentile / distribution / per-page / cold-vs-warm / Free-vs-Paid summaries in `report-v2.md`. Re-run after any new collection pass. |
 | [`results.csv`](./results.csv) | Raw curl timings. One row per URL hit per run. 4,732 rows from the baseline collection, plus additional rows for the post-optimization runs. |
+| [`uncached.py`](./uncached.py) | Uncached-hit timing for the live site (issue #11): unique `?nc=` per request to skip the edge cache, records curl timings plus the `Server-Timing` fields (`db.count`, `db.total`, `db.last`, `render`). `--accept browser` sends a browser `Accept` header, which changes EmDash's code path. |
+| [`waterfall/`](./waterfall/) | Local D1 query waterfall: runs the production build under `wrangler dev` with injected D1 latency and records every query's start and end, including queries `Server-Timing` can't see. |
 
 ## Reproducing the numbers from scratch
 

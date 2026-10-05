@@ -16,7 +16,13 @@ export default defineConfig({
 	integrations: [
 		react(),
 		emdash({
-			database: d1({ binding: "DB", session: "auto" }),
+			// No D1 sessions: the database has no read replicas, and on a session
+			// EmDash runs a request's queries one at a time (and, for browser
+			// navigations, prefetches widget and taxonomy data ahead of the page's
+			// own queries). Without one, queries a page starts together overlap.
+			// If read replication is enabled, use session: "auto" with
+			// coalesce: true, which batches those queries instead.
+			database: d1({ binding: "DB" }),
 			storage: r2({ binding: "MEDIA" }),
 			plugins: [formsPlugin(), webhookNotifier],
 		}),

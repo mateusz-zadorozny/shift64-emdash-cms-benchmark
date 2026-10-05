@@ -15,6 +15,7 @@ import Base from "../../layouts/Base.astro";
 import Comments from "../../components/Comments.astro";
 import CommentForm from "../../components/CommentForm.astro";
 import PostCard from "../../components/PostCard.astro";
+import { preloadLayoutData } from "../../utils/layout-data";
 import { getReadingTime } from "../../utils/reading-time";
 import { timed } from "../../utils/timing";
 
@@ -24,7 +25,18 @@ if (!slug) {
 	return Astro.redirect("/404");
 }
 
-const { entry: post, cacheHint } = await timed(Astro.locals, "D1:entry", () => getEmDashEntry("posts", slug));
+preloadLayoutData(Astro.locals);
+
+// The recent posts don't depend on this post, so fetch both at once
+const [{ entry: post, cacheHint }, { entries: recentPosts }] = await timed(
+	Astro.locals,
+	"D1:entry+recent",
+	() =>
+		Promise.all([
+			getEmDashEntry("posts", slug),
+			getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: 4 }),
+		]),
+);
 
 if (!post) {
 	return Astro.redirect("/404");
@@ -65,21 +77,16 @@ const seo = getSeoMeta(post, {
 	defaultOgImage: featuredImageUrl,
 });
 
-// Parallel: tags + recent posts (both depend on post, not on each other)
-const [tags, { entries: recentPosts }] = await timed(Astro.locals, "D1:tags+recent", () =>
-	Promise.all([
-		getEntryTerms("posts", post.data.id, "tag"),
-		getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: 4 }),
-	])
-);
-
 const bylines = post.data.bylines ?? [];
 const readingTime = getReadingTime(post.data.content);
 const otherPosts = recentPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
-// Batch: fetch tags for all related posts in a single query
-const relatedTagsMap = await timed(Astro.locals, "D1:related-tags", () =>
-	getTermsForEntries("posts", otherPosts.map((p) => p.data.id), "tag")
+// Tags for this post and (batched) for the related posts, in parallel
+const [tags, relatedTagsMap] = await timed(Astro.locals, "D1:tags", () =>
+	Promise.all([
+		getEntryTerms("posts", post.data.id, "tag"),
+		getTermsForEntries("posts", otherPosts.map((p) => p.data.id), "tag"),
+	])
 );
 const otherPostsWithTags = otherPosts.map((p) => ({
 	post: p,

@@ -11,3 +11,5 @@ data.db-wal
 .claude/
 # EmDash migration manifest (generated on build)
 .emdash/
+# Local query-waterfall runs (benchmark/waterfall)
+.bench/

@@ -1,19 +1,15 @@
 import { defineMiddleware } from "astro:middleware";
-import { getTimings } from "./utils/timing";
+import { APP_TIMING_HEADER, formatServerTiming, getTimings } from "./utils/timing";
 
 export const onRequest = defineMiddleware(async (context, next) => {
 	const start = performance.now();
 	const response = await next();
 	const total = performance.now() - start;
 
-	// Build Server-Timing header from collected query timings
-	const timings = getTimings(context.locals);
-	const parts = timings.map(
-		(t, i) => `${t.label.replace(/\s/g, "_")};dur=${t.dur.toFixed(1)};desc="${t.label}"`,
-	);
-	parts.push(`total;dur=${total.toFixed(1)};desc="Total"`);
-
-	response.headers.set("Server-Timing", parts.join(", "));
+	// Our query timings. EmDash would overwrite a Server-Timing header set
+	// here, so src/worker.ts moves this one into Server-Timing.
+	const timings = [...getTimings(context.locals), { label: "total", dur: total }];
+	response.headers.set(APP_TIMING_HEADER, formatServerTiming(timings));
 
 	// CDN caching for public HTML pages
 	// Skip: admin routes, API routes, non-200, non-HTML, logged-in users
