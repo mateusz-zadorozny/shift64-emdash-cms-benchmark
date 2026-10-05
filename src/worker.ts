@@ -6,9 +6,21 @@ export { PluginBridge } from "@emdash-cms/cloudflare/sandbox";
  * Workers on custom domains bypass Cloudflare CDN cache by default,
  * so we use caches.default to cache public HTML responses at the edge.
  *
- * Cache key uses a stripped URL (no query params except whitelisted ones)
- * to ensure consistent matching regardless of request headers.
+ * Cache key is the URL without tracking params, with remaining query params
+ * sorted. The query string must stay in the key: /search?q=foo and
+ * /search?q=bar are different pages.
  */
+const TRACKING_PARAMS = /^(utm_.+|fbclid|gclid|msclkid|mc_cid|mc_eid|ref)$/;
+
+function cacheKeyUrl(url: URL): string {
+	const params = [...url.searchParams]
+		.filter(([key]) => !TRACKING_PARAMS.test(key))
+		.sort(([a], [b]) => a.localeCompare(b));
+	const keyUrl = new URL(url.pathname, url.origin);
+	for (const [key, value] of params) keyUrl.searchParams.append(key, value);
+	return keyUrl.toString();
+}
+
 export default {
 	async fetch(request: Request, env: unknown, ctx: ExecutionContext): Promise<Response> {
 		// Only cache GET requests
@@ -23,9 +35,7 @@ export default {
 			return handler.fetch(request, env, ctx);
 		}
 
-		// Use a clean URL as cache key (strip tracking params, normalize)
-		const cacheUrl = new URL(url.pathname, url.origin);
-		const cacheKey = new Request(cacheUrl.toString(), {
+		const cacheKey = new Request(cacheKeyUrl(url), {
 			method: "GET",
 		});
 
@@ -35,6 +45,9 @@ export default {
 			// Add marker header so we know it was a cache hit
 			const hit = new Response(cached.body, cached);
 			hit.headers.set("X-Cache", "HIT");
+			// The stored copy gets the zone's browser TTL (max-age=14400);
+			// restore max-age=0 so browsers revalidate as the middleware intends
+			hit.headers.set("Cache-Control", "public, max-age=0, s-maxage=60, stale-while-revalidate=300");
 			return hit;
 		}
 
