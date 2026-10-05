@@ -3,13 +3,14 @@ import {
 	getEmDashEntry,
 	getEmDashCollection,
 	getEntryTerms,
+	getTermsForEntries,
 	getSeoMeta,
 } from "emdash";
 import {
 	Image,
 	PortableText,
-	WidgetArea,
 } from "emdash/ui";
+import DeferredSidebar from "../../components/DeferredSidebar.astro";
 import Base from "../../layouts/Base.astro";
 import Comments from "../../components/Comments.astro";
 import CommentForm from "../../components/CommentForm.astro";
@@ -76,15 +77,15 @@ const bylines = post.data.bylines ?? [];
 const readingTime = getReadingTime(post.data.content);
 const otherPosts = recentPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
-// Parallel: fetch tags for all related posts at once
-const otherPostsWithTags = await timed(Astro.locals, "D1:related-tags", () =>
-	Promise.all(
-		otherPosts.map(async (p) => {
-			const postTags = await getEntryTerms("posts", p.data.id, "tag");
-			return { post: p, tags: postTags, bylines: p.data.bylines ?? [] };
-		})
-	)
+// Batch: fetch tags for all related posts in a single query
+const relatedTagsMap = await timed(Astro.locals, "D1:related-tags", () =>
+	getTermsForEntries("posts", otherPosts.map((p) => p.data.id), "tag")
 );
+const otherPostsWithTags = otherPosts.map((p) => ({
+	post: p,
+	tags: relatedTagsMap.get(p.data.id) ?? [],
+	bylines: p.data.bylines ?? [],
+}));
 
 const publishDate =
 	post.data.publishedAt?.toLocaleDateString("pl-PL", {
@@ -236,7 +237,13 @@ const publishDate =
 						</div>
 					</nav>
 					<div class="sidebar-widgets">
-						<WidgetArea name="sidebar" />
+						<DeferredSidebar server:defer>
+							<div slot="fallback" class="sidebar-skeleton">
+								<div class="skeleton-block"></div>
+								<div class="skeleton-block"></div>
+								<div class="skeleton-block"></div>
+							</div>
+						</DeferredSidebar>
 					</div>
 				</div>
 			</aside>
@@ -639,6 +646,33 @@ const publishDate =
 	.toc-content :global(.toc-link:hover),
 	.toc-content :global(.toc-link.active) {
 		color: var(--color-text);
+	}
+
+	/* Sidebar skeleton */
+	.sidebar-skeleton {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-6);
+	}
+
+	.sidebar-skeleton .skeleton-block {
+		height: 120px;
+		background: var(--color-surface);
+		border-radius: var(--radius);
+		animation: skeleton-pulse 1.5s ease-in-out infinite;
+	}
+
+	.sidebar-skeleton .skeleton-block:nth-child(2) {
+		height: 80px;
+	}
+
+	.sidebar-skeleton .skeleton-block:nth-child(3) {
+		height: 100px;
+	}
+
+	@keyframes skeleton-pulse {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.4; }
 	}
 
 	/* Sidebar widgets */
