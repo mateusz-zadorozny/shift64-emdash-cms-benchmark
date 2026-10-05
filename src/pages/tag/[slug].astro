@@ -2,19 +2,33 @@
 import { getTerm, getEmDashCollection, getTermsForEntries } from "emdash";
 import Base from "../../layouts/Base.astro";
 import PostCard from "../../components/PostCard.astro";
+import { preloadLayoutData } from "../../utils/layout-data";
 import { getReadingTime } from "../../utils/reading-time";
+import { timed } from "../../utils/timing";
 
 const { slug } = Astro.params;
-const term = slug ? await getTerm("tag", slug) : null;
+
+if (!slug) {
+	return Astro.redirect("/404");
+}
+
+preloadLayoutData(Astro.locals);
+
+// The posts filter only needs the slug, so look the term up at the same time.
+// The page doesn't show the term's post count, so skip that query.
+const [term, { entries: posts }] = await timed(Astro.locals, "D1:term+posts", () =>
+	Promise.all([
+		getTerm("tag", slug, { includeCounts: false }),
+		getEmDashCollection("posts", {
+			where: { tag: slug },
+			orderBy: { published_at: "desc" },
+		}),
+	])
+);
 
 if (!term) {
 	return Astro.redirect("/404");
 }
-
-const { entries: posts } = await getEmDashCollection("posts", {
-	where: { tag: term.slug },
-	orderBy: { published_at: "desc" },
-});
 
 // Batch: fetch tags for all posts in a single query
 const tagsMap = await getTermsForEntries("posts", posts.map((p) => p.data.id), "tag");

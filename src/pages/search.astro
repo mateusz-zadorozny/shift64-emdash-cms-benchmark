@@ -4,7 +4,10 @@ export const prerender = false;
 import { getEmDashCollection } from "emdash";
 import Base from "../layouts/Base.astro";
 import PostCard from "../components/PostCard.astro";
+import { preloadLayoutData } from "../utils/layout-data";
 import { getReadingTime, extractText } from "../utils/reading-time";
+
+preloadLayoutData(Astro.locals);
 
 const query = Astro.url.searchParams.get("q")?.trim() || "";
 

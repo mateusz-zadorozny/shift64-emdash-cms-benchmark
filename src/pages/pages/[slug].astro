@@ -2,12 +2,15 @@
 import { getEmDashEntry } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
+import { preloadLayoutData } from "../../utils/layout-data";
 
 const { slug } = Astro.params;
 
 if (!slug) {
 	return Astro.redirect("/404");
 }
+
+preloadLayoutData(Astro.locals);
 
 const { entry: page, cacheHint } = await getEmDashEntry("pages", slug);
 

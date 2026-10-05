@@ -1,5 +1,4 @@
 ---
-import { getMenu, getEmDashCollection } from "emdash";
 import {
 	EmDashHead,
 	EmDashBodyStart,
@@ -8,6 +7,7 @@ import {
 import DeferredFooterWidgets from "../components/DeferredFooterWidgets.astro";
 import { createPublicPageContext } from "emdash/page";
 import LiveSearch from "emdash/ui/search";
+import { getLayoutData } from "../utils/layout-data";
 import { getTimings } from "../utils/timing";
 import "../styles/theme.css";
 
@@ -41,11 +41,9 @@ const siteTitle = "EmDash CMS Polska";
 // If title already includes site title (from getSeoMeta), use as-is
 const fullTitle = title.includes(siteTitle) ? title : `${title} — ${siteTitle}`;
 
-// Fetch primary menu defined in seed
-const menu = await getMenu("primary");
-
-// Fetch pages for footer
-const { entries: pages } = await getEmDashCollection("pages");
+// Primary menu and footer pages, usually already started by the page
+// (see utils/layout-data.ts)
+const { menu, pages } = await getLayoutData(Astro.locals);
 
 // Build public page context for plugin contributions
 // SEO data is passed here and rendered securely by EmDashHead
