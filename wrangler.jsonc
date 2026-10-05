@@ -6,6 +6,13 @@
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
+	// Run the Worker next to the D1 primary (VIE, region EEUR) instead of next
+	// to the visitor: a post page makes ~10 sequential D1 queries, so each
+	// round trip counts more than the single hop back to the visitor.
+	// Warsaw is the closest cloud region to Vienna that we know exists.
+	"placement": {
+		"region": "gcp:europe-central2"
+	},
 	"assets": {
 		"directory": "./dist",
 	},
