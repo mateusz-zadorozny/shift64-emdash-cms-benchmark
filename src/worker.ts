@@ -1,4 +1,5 @@
 import handler from "@astrojs/cloudflare/entrypoints/server";
+import { createScheduledHandler } from "@emdash-cms/cloudflare/worker";
 export { PluginBridge } from "@emdash-cms/cloudflare/sandbox";
 
 /**
@@ -77,4 +78,8 @@ export default {
 		response.headers.set("X-Cache", "MISS");
 		return response;
 	},
+
+	// EmDash runs scheduled publishing and plugin cron from this handler.
+	// Must match the Cron Trigger in wrangler.jsonc.
+	scheduled: createScheduledHandler({ generalCron: "* * * * *" }),
 } satisfies ExportedHandler;
