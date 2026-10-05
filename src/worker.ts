@@ -21,6 +21,16 @@ function cacheKeyUrl(url: URL): string {
 	return keyUrl.toString();
 }
 
+// Signed-in editors (Astro session) and visual editing must bypass the cache,
+// otherwise they get the anonymous HTML without the editing toolbar
+const BYPASS_COOKIES = new Set(["astro-session", "emdash-edit-mode"]);
+
+function hasBypassCookie(request: Request): boolean {
+	const header = request.headers.get("Cookie");
+	if (!header) return false;
+	return header.split(";").some((part) => BYPASS_COOKIES.has(part.split("=")[0].trim()));
+}
+
 export default {
 	async fetch(request: Request, env: unknown, ctx: ExecutionContext): Promise<Response> {
 		// Only cache GET requests
@@ -32,6 +42,10 @@ export default {
 
 		// Skip cache for admin, API, and preview routes
 		if (url.pathname.startsWith("/_emdash") || url.pathname.startsWith("/api")) {
+			return handler.fetch(request, env, ctx);
+		}
+
+		if (hasBypassCookie(request)) {
 			return handler.fetch(request, env, ctx);
 		}
 
