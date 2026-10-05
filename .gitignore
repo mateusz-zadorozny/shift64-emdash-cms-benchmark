@@ -9,3 +9,5 @@ data.db-wal
 .env
 .playwright-mcp/
 .claude/
+# EmDash migration manifest (generated on build)
+.emdash/

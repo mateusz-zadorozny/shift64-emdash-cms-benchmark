@@ -1,5 +1,5 @@
 ---
-import { getEmDashCollection, getEntryTerms } from "emdash";
+import { getEmDashCollection, getTermsForEntries } from "emdash";
 import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import PostCard from "../components/PostCard.astro";
@@ -27,25 +27,23 @@ const gridPosts = sortedPosts.filter((_, i) => i !== featuredIndex).slice(0, 6);
 const totalShown = (featuredPost ? 1 : 0) + gridPosts.length;
 const hasMorePosts = sortedPosts.length > totalShown;
 
-// Parallel: fetch tags for featured + all grid posts in one batch
+// Batch: fetch tags for featured + all grid posts in a single query
 const featuredBylines = featuredPost?.data.bylines ?? [];
 const allPostsToFetchTags = [
 	...(featuredPost ? [featuredPost] : []),
 	...gridPosts,
 ];
-const allTagResults = await timed(Astro.locals, "D1:all-tags", () =>
-	Promise.all(allPostsToFetchTags.map((p) => getEntryTerms("posts", p.data.id, "tag")))
+const tagsMap = await timed(Astro.locals, "D1:all-tags", () =>
+	getTermsForEntries("posts", allPostsToFetchTags.map((p) => p.data.id), "tag")
 );
 
 let featuredTags: Array<{ slug: string; label: string }> = [];
-let tagOffset = 0;
 if (featuredPost) {
-	featuredTags = allTagResults[0].map((t) => ({ slug: t.slug, label: t.label }));
-	tagOffset = 1;
+	featuredTags = (tagsMap.get(featuredPost.data.id) ?? []).map((t) => ({ slug: t.slug, label: t.label }));
 }
-const gridPostsWithTags = gridPosts.map((post, i) => ({
+const gridPostsWithTags = gridPosts.map((post) => ({
 	post,
-	tags: allTagResults[i + tagOffset].map((t) => ({ slug: t.slug, label: t.label })),
+	tags: (tagsMap.get(post.data.id) ?? []).map((t) => ({ slug: t.slug, label: t.label })),
 	bylines: post.data.bylines ?? [],
 }));
 

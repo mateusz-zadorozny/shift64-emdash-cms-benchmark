@@ -39,7 +39,7 @@ Every commit is a self-contained optimization — you can cherry-pick individual
 | Media storage | Cloudflare R2 |
 | Plugins | `emdash/plugin-forms`, `emdash/plugin-webhook-notifier` |
 | Language | TypeScript |
-| Package manager | pnpm |
+| Package manager | npm |
 
 ## What we learned the hard way
 
@@ -102,8 +102,8 @@ Every D1 round-trip over the edge costs ~40 ms. A post page needs at least 3 seq
 ## Running locally
 
 ```bash
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 Loads the D1 local emulator + R2 local emulator + Astro dev server. The dev UI is at `http://localhost:4321/_emdash`.
@@ -111,7 +111,7 @@ Loads the D1 local emulator + R2 local emulator + Astro dev server. The dev UI i
 ## Deploying to Cloudflare
 
 ```bash
-pnpm deploy
+npm run deploy
 ```
 
 Requires Wrangler auth and an existing D1 database + R2 bucket configured in `wrangler.jsonc`.
