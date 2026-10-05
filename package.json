@@ -13,21 +13,28 @@
   "dependencies": {
     "@astrojs/cloudflare": "^13.1.6",
     "@astrojs/react": "^5.0.0",
-    "@emdash-cms/cloudflare": "^0.0.3",
-    "@emdash-cms/plugin-forms": "^0.0.3",
-    "@emdash-cms/plugin-webhook-notifier": "^0.0.3",
+    "@emdash-cms/cloudflare": "^1.1.0",
+    "@emdash-cms/plugin-forms": "^0.2.9",
+    "@emdash-cms/plugin-webhook-notifier": "^0.2.2",
     "astro": "^6.1.2",
-    "emdash": "^0.0.3",
+    "emdash": "^1.1.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.7",
-    "@cloudflare/workers-types": "^4.20260401.1",
+    "@cloudflare/workers-types": "^5.20261001.1",
     "wrangler": "^4.79.0"
   },
   "emdash": {
     "label": "Blog",
     "seed": "seed/seed.json"
+  },
+  "allowScripts": {
+    "esbuild@0.27.7": true,
+    "esbuild@0.28.1": true,
+    "sharp@0.35.4": true,
+    "sharp@0.34.5": true,
+    "workerd@1.20261001.1": true
   }
 }
