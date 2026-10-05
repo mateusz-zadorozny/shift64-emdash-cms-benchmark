@@ -31,6 +31,10 @@
 	"routes": [
 		{ "pattern": "emdashcms.pl", "custom_domain": true }
 	],
+	// Drives EmDash scheduled publishing and plugin cron (src/worker.ts scheduled())
+	"triggers": {
+		"crons": ["* * * * *"]
+	},
 	"observability": {
 		"enabled": true,
 	},
