@@ -44,9 +44,12 @@
 	"routes": [
 		{ "pattern": "emdashcms.pl", "custom_domain": true }
 	],
-	// Drives EmDash scheduled publishing and plugin cron (src/worker.ts scheduled())
+	// No cron while scheduled publishing isn't used. Every minute it ran EmDash's
+	// scheduler (src/worker.ts scheduled()), which queried and wrote D1 and kept
+	// it warm for page renders; April's benchmark had no cron. To bring back
+	// scheduled posts, plugin cron and cleanup, set "crons": ["* * * * *"].
 	"triggers": {
-		"crons": ["* * * * *"]
+		"crons": []
 	},
 	"observability": {
 		"enabled": true,
