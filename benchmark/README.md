@@ -17,6 +17,8 @@ Full measurement artifacts from the benchmark published on SHIFT64:
 | [`results.csv`](./results.csv) | Raw curl timings. One row per URL hit per run. 4,732 rows from the baseline collection, plus additional rows for the post-optimization runs. |
 | [`uncached.py`](./uncached.py) | Uncached-hit timing for the live site (issue #11): unique `?nc=` per request to skip the edge cache, records curl timings plus the `Server-Timing` fields (`db.count`, `db.total`, `db.last`, `render`). `--accept browser` sends a browser `Accept` header, which changes EmDash's code path. |
 | [`waterfall/`](./waterfall/) | Local D1 query waterfall: runs the production build under `wrangler dev` with injected D1 latency and records every query's start and end, including queries `Server-Timing` can't see. |
+| [`vps-bench.py`](./vps-bench.py) | Round two (October 2026), run from cron on the same OVH VPS as `bench.sh`. It covers April's 13 pages on three sites: `emdashcms.pl` (page cache), `kv.emdashcms.pl` (EmDash's KV object cache, branch `exp/kv-object-cache`) and `emdash.pl` (WordPress). Each page gets two arms, uncached (`?nc=`) and as served. Requests are 1.5 s apart, with an hour's pause after errors, because of the Workers Free plan CPU limit. It records cache status, colo and `Server-Timing`, and stops by itself on 9 October 2026. |
+| [`vps-summary.py`](./vps-summary.py) | Per site and arm summary of `vps-bench.py`'s CSV: server time and TTFB (p50/p95), EmDash render time and query count, and what answered (cache status, colo). |
 
 ## Reproducing the numbers from scratch
 
