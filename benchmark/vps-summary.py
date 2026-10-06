@@ -22,9 +22,13 @@ def pct(values, p):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    args = sys.argv[1:]
+    since = ""
+    if "--since" in args:
+        i = args.index("--since")
+        since = args[i + 1]
+        del args[i:i + 2]
     path = args[0] if args else "results.csv"
-    since = sys.argv[sys.argv.index("--since") + 1] if "--since" in sys.argv else ""
     rows = [r for r in csv.DictReader(open(path)) if r["time"] >= since]
     runs = sorted({r["run"] for r in rows})
     print(f"{len(rows)} requests in {len(runs)} runs, {runs[0] if runs else '-'} .. {runs[-1] if runs else '-'}")
