@@ -1,6 +1,6 @@
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
-import { d1, r2 } from "@emdash-cms/cloudflare";
+import { d1, kvCache, r2 } from "@emdash-cms/cloudflare";
 import { formsPlugin } from "@emdash-cms/plugin-forms";
 import webhookNotifier from "@emdash-cms/plugin-webhook-notifier";
 import { defineConfig } from "astro/config";
@@ -13,10 +13,6 @@ export default defineConfig({
 	// true keeps Astro 6 output.
 	compressHTML: true,
 	adapter: cloudflare(),
-	// Turns EmDash's cache invalidations (publishing, edits, scheduled posts)
-	// into a purge of the HTML cache in src/worker.ts. Not Workers Cache: the
-	// adapter only enables that for its own "cloudflare" provider.
-	cache: { provider: { name: "html-cache", entrypoint: "./src/cache-provider.ts" } },
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
@@ -32,6 +28,12 @@ export default defineConfig({
 			// coalesce: true, which batches those queries instead.
 			database: d1({ binding: "DB" }),
 			storage: r2({ binding: "MEDIA" }),
+			// Experiment (kv.emdashcms.pl): EmDash's object cache in KV instead of
+			// main's page cache. No route cache provider here, because with one
+			// EmDash skips the object cache for page renders (routeCacheFill).
+			// A one-day TTL keeps rewrites under the Free plan's 1,000 KV writes
+			// a day; the default hour would rewrite every key hourly.
+			objectCache: kvCache({ binding: "CACHE", defaultTtl: 86400 }),
 			plugins: [formsPlugin(), webhookNotifier],
 		}),
 	],

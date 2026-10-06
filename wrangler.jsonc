@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "emdash-cms-pl",
+	"name": "emdash-cms-pl-kv",
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-03-29",
 	"compatibility_flags": [
@@ -16,16 +16,16 @@
 	"assets": {
 		"directory": "./dist",
 	},
-	// The Worker version is part of the HTML cache key (src/utils/html-cache.ts),
-	// so a deploy never serves pages built for the previous assets
-	"version_metadata": {
-		"binding": "CF_VERSION_METADATA"
-	},
-	// SESSION also holds the HTML cache generation (key html-cache:generation)
+	// Experiment: a copy of emdashcms.pl on the same D1 and R2, with EmDash's
+	// object cache in KV (CACHE) instead of main's page cache
 	"kv_namespaces": [
 		{
 			"binding": "SESSION",
 			"id": "17e6de7e92fb4d6db3398144158bc6f3"
+		},
+		{
+			"binding": "CACHE",
+			"id": "2184dcef31e54e259763cac382a18652"
 		}
 	],
 	"d1_databases": [
@@ -42,12 +42,9 @@
 		},
 	],
 	"routes": [
-		{ "pattern": "emdashcms.pl", "custom_domain": true }
+		{ "pattern": "kv.emdashcms.pl", "custom_domain": true }
 	],
-	// Drives EmDash scheduled publishing and plugin cron (src/worker.ts scheduled())
-	"triggers": {
-		"crons": ["* * * * *"]
-	},
+	// No cron: emdashcms.pl already runs scheduled publishing on the shared D1
 	"observability": {
 		"enabled": true,
 	},
