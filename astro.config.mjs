@@ -8,6 +8,10 @@ import emdash from "emdash/astro";
 
 export default defineConfig({
 	output: "server",
+	// Astro 7 defaults to JSX whitespace rules ("jsx"), which drop the newline
+	// between `{count}` and its label ("18artykułów") and between inline links.
+	// true keeps Astro 6 output.
+	compressHTML: true,
 	adapter: cloudflare(),
 	image: {
 		layout: "constrained",
