@@ -3,7 +3,7 @@
  * Polish version of the EmDash Comments component.
  * Replaces the English-only built-in component.
  */
-import { getComments, getCollectionInfo } from "emdash";
+import { getCommentsData } from "../utils/comments-data";
 
 interface Props {
 	collection: string;
@@ -19,12 +19,12 @@ const {
 	class: className,
 } = Astro.props;
 
-// Fetch the comments together with the collection info rather than after it.
-// If comments turn out to be disabled, the result is simply not rendered.
-const [collectionInfo, comments] = await Promise.all([
-	getCollectionInfo(collection),
-	getComments({ collection, contentId, threaded }),
-]);
+// Usually already started by the page (preloadComments)
+const { collectionInfo, comments } = await getCommentsData(Astro.locals, {
+	collection,
+	contentId,
+	threaded,
+});
 const enabled = collectionInfo?.commentsEnabled ?? false;
 const { items, total } = enabled ? comments : { items: [], total: 0 };
 
