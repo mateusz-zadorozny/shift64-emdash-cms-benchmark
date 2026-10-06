@@ -1,5 +1,6 @@
 import handler from "@astrojs/cloudflare/entrypoints/server";
 import { createScheduledHandler } from "@emdash-cms/cloudflare/worker";
+import { getCacheVersion, HTML_CACHE_CONTROL, purgeHtmlCache } from "./utils/html-cache";
 import { APP_TIMING_HEADER } from "./utils/timing";
 export { PluginBridge } from "@emdash-cms/cloudflare/sandbox";
 
@@ -24,18 +25,25 @@ const render: typeof handler.fetch = async (request, env, ctx) => {
  *
  * Cache key is the URL without tracking params, with remaining query params
  * sorted. The query string must stay in the key: /search?q=foo and
- * /search?q=bar are different pages.
+ * /search?q=bar are different pages. It also carries the cache version
+ * (src/utils/html-cache.ts), which changes on every deploy and purge.
  */
 const TRACKING_PARAMS = /^(utm_.+|fbclid|gclid|msclkid|mc_cid|mc_eid|ref)$/;
 
-function cacheKeyUrl(url: URL): string {
+function cacheKeyUrl(url: URL, version: string): string {
 	const params = [...url.searchParams]
 		.filter(([key]) => !TRACKING_PARAMS.test(key))
 		.sort(([a], [b]) => a.localeCompare(b));
 	const keyUrl = new URL(url.pathname, url.origin);
 	for (const [key, value] of params) keyUrl.searchParams.append(key, value);
+	keyUrl.searchParams.append("__cache", version);
 	return keyUrl.toString();
 }
+
+// EmDash doesn't report comment and media changes to the cache provider, but
+// both show on public pages
+const WRITES_THAT_PURGE = /^\/_emdash\/api\/(admin\/)?(comments|media)(\/|$)/;
+const WRITE_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
 // Signed-in editors (Astro session) and visual editing must bypass the cache,
 // otherwise they get the anonymous HTML without the editing toolbar
@@ -49,12 +57,16 @@ function hasBypassCookie(request: Request): boolean {
 
 export default {
 	async fetch(request: Request, env: unknown, ctx: ExecutionContext): Promise<Response> {
+		const url = new URL(request.url);
+
 		// Only cache GET requests
 		if (request.method !== "GET") {
-			return render(request, env, ctx);
+			const response = await render(request, env, ctx);
+			if (response.ok && WRITE_METHODS.has(request.method) && WRITES_THAT_PURGE.test(url.pathname)) {
+				ctx.waitUntil(purgeHtmlCache());
+			}
+			return response;
 		}
-
-		const url = new URL(request.url);
 
 		// Skip cache for admin, API, and preview routes
 		if (url.pathname.startsWith("/_emdash") || url.pathname.startsWith("/api")) {
@@ -65,7 +77,12 @@ export default {
 			return render(request, env, ctx);
 		}
 
-		const cacheKey = new Request(cacheKeyUrl(url), {
+		const version = await getCacheVersion(ctx);
+		if (!version) {
+			return render(request, env, ctx);
+		}
+
+		const cacheKey = new Request(cacheKeyUrl(url, version), {
 			method: "GET",
 		});
 
@@ -77,7 +94,7 @@ export default {
 			hit.headers.set("X-Cache", "HIT");
 			// The stored copy gets the zone's browser TTL (max-age=14400);
 			// restore max-age=0 so browsers revalidate as the middleware intends
-			hit.headers.set("Cache-Control", "public, max-age=0, s-maxage=60, stale-while-revalidate=300");
+			hit.headers.set("Cache-Control", HTML_CACHE_CONTROL);
 			return hit;
 		}
 

@@ -13,6 +13,10 @@ export default defineConfig({
 	// true keeps Astro 6 output.
 	compressHTML: true,
 	adapter: cloudflare(),
+	// Turns EmDash's cache invalidations (publishing, edits, scheduled posts)
+	// into a purge of the HTML cache in src/worker.ts. Not Workers Cache: the
+	// adapter only enables that for its own "cloudflare" provider.
+	cache: { provider: { name: "html-cache", entrypoint: "./src/cache-provider.ts" } },
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,

@@ -1,4 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
+import { HTML_CACHE_CONTROL } from "./utils/html-cache";
 import { APP_TIMING_HEADER, formatServerTiming, getTimings } from "./utils/timing";
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -22,13 +23,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
 		!context.locals.user;
 
 	if (isPublicPage && !response.headers.has("Cache-Control")) {
-		// s-maxage: CDN caches for 60s (origin not hit)
-		// stale-while-revalidate: serve stale for 5min while refreshing in background
-		// max-age=0: browser always revalidates with CDN (so CDN purge is instant for users)
-		response.headers.set(
-			"Cache-Control",
-			"public, max-age=0, s-maxage=60, stale-while-revalidate=300",
-		);
+		// s-maxage: src/worker.ts keeps the page for a day; content changes
+		// purge it sooner (src/utils/html-cache.ts)
+		// max-age=0: browser always revalidates, so a purge reaches it at once
+		response.headers.set("Cache-Control", HTML_CACHE_CONTROL);
 	}
 
 	return response;
