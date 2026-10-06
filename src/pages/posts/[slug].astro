@@ -15,6 +15,7 @@ import Base from "../../layouts/Base.astro";
 import Comments from "../../components/Comments.astro";
 import CommentForm from "../../components/CommentForm.astro";
 import PostCard from "../../components/PostCard.astro";
+import { preloadComments } from "../../utils/comments-data";
 import { preloadLayoutData } from "../../utils/layout-data";
 import { getReadingTime } from "../../utils/reading-time";
 import { timed } from "../../utils/timing";
@@ -33,7 +34,18 @@ const [{ entry: post, cacheHint }, { entries: recentPosts }] = await timed(
 	"D1:entry+recent",
 	() =>
 		Promise.all([
-			getEmDashEntry("posts", slug),
+			getEmDashEntry("posts", slug).then((result) => {
+				// The response waits for Comments.astro, so start its queries as
+				// soon as the post id is known, not after the recent posts
+				if (result.entry) {
+					preloadComments(Astro.locals, {
+						collection: "posts",
+						contentId: result.entry.data.id,
+						threaded: true,
+					});
+				}
+				return result;
+			}),
 			getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: 4 }),
 		]),
 );
