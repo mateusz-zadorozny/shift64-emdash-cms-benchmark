@@ -1,6 +1,6 @@
 # emdash-cms-pl — EmDash benchmark subject site
 
-Astro 6 + [EmDash CMS](https://github.com/emdash-cms/emdash) + Cloudflare Workers + D1. This is the **EmDash side** of the *EmDash vs WordPress* benchmark published on SHIFT64.
+Astro 7 + [EmDash CMS](https://github.com/emdash-cms/emdash) + Cloudflare Workers + D1. This is the **EmDash side** of the *EmDash vs WordPress* benchmark published on SHIFT64.
 
 - **Article:** [I Bought the Domain Before I Ran the Test. EmDash Still Lost to WordPress.](https://shift64.com/blog/emdash-cms-vs-wordpress-honest-benchmark)
 - **Live site:** [emdashcms.pl](https://emdashcms.pl)
@@ -32,7 +32,7 @@ Every commit is a self-contained optimization — you can cherry-pick individual
 
 | Layer | Choice |
 |---|---|
-| Framework | Astro 6 with `@astrojs/cloudflare` adapter |
+| Framework | Astro 7 with `@astrojs/cloudflare` adapter (v14) |
 | CMS | EmDash (`emdash-blog` starter template) |
 | Runtime | Cloudflare Workers (v8 isolates / workerd) |
 | Database | Cloudflare D1 (SQLite at edge) |
@@ -92,6 +92,8 @@ You add `Cache-Control: public, s-maxage=60, stale-while-revalidate=300` via mid
 This is because Workers on a custom domain hit the Worker first, and the Worker returns the response directly to the client — Cloudflare's CDN cache layer is not in the path. The `Cache-Control` header works for *downstream* caches, but it does not make the edge cache the response on your behalf.
 
 **Workaround:** wrap the Worker entrypoint with explicit Cache API calls (`caches.open("html-pages")` → `match` → `put`). `caches.default` does not work on custom domains; named caches do. See the `perf: add edge caching via Cloudflare Cache API` commit for the full implementation in `src/worker.ts`.
+
+*Update, October 2026:* Cloudflare now offers [Workers Cache](https://developers.cloudflare.com/workers/cache/), an opt-in cache in front of the Worker, and Astro 7's `cacheCloudflare()` provider uses it. We evaluated it in [#7](https://github.com/mateusz-zadorozny/shift64-emdash-cms-benchmark/issues/7) and kept the Cache API wrapper; the issue explains why.
 
 ### 5. The D1 latency floor is architectural
 
