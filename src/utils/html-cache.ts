@@ -14,8 +14,8 @@
 
 import { env } from "cloudflare:workers";
 
-/** Public pages: browsers always revalidate, the edge keeps them a day. */
-export const HTML_CACHE_CONTROL = "public, max-age=0, s-maxage=86400";
+/** Public pages: browsers always revalidate, the edge keeps them 7 days. */
+export const HTML_CACHE_CONTROL = "public, max-age=0, s-maxage=604800";
 
 const GENERATION_KEY = "html-cache:generation";
 // An isolate reuses the generation it last read for this long, then refreshes

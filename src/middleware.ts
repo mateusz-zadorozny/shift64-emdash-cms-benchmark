@@ -23,7 +23,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 		!context.locals.user;
 
 	if (isPublicPage && !response.headers.has("Cache-Control")) {
-		// s-maxage: src/worker.ts keeps the page for a day; content changes
+		// s-maxage: src/worker.ts keeps the page for 7 days; content changes
 		// purge it sooner (src/utils/html-cache.ts)
 		// max-age=0: browser always revalidates, so a purge reaches it at once
 		response.headers.set("Cache-Control", HTML_CACHE_CONTROL);
