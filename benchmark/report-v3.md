@@ -29,14 +29,14 @@ Nothing in the admin warns you about any of this. The only way I found them was 
 
 ## Upstream reports
 
-I reported four issues to EmDash on 5 October. One was fixed and merged four days later.
+I reported four issues to EmDash on 5 October. One was fixed and merged four days later, and I sent my own fix for another.
 
 | Issue | What it costs | Status on 10 October |
 | --- | --- | --- |
 | [#3905](https://github.com/emdash-cms/emdash/issues/3905) | Comments are counted and listed in two sequential queries | Fixed by [#3907](https://github.com/emdash-cms/emdash/pull/3907), opened by EmDash's bot 46 minutes after the report and merged on 10 October. Ships after 1.2.0. |
 | [#3915](https://github.com/emdash-cms/emdash/issues/3915) | A D1 session runs one query at a time, and the layout prefetch queues first | Open; fix in review ([#3937](https://github.com/emdash-cms/emdash/pull/3937)) |
 | [#3903](https://github.com/emdash-cms/emdash/issues/3903) | The byline-fields version is read from D1 on every request | Open |
-| [#3904](https://github.com/emdash-cms/emdash/issues/3904) | Entries with no terms in a taxonomy aren't primed, so terms are queried again | Open |
+| [#3904](https://github.com/emdash-cms/emdash/issues/3904) | Entries with no terms in a taxonomy aren't primed, so terms are queried again | My fix: [#4088](https://github.com/emdash-cms/emdash/pull/4088), opened 10 October and awaiting maintainer review. On this site it takes the home page and post list from 5 to 4 queries. |
 
 ## Astro 7 and the free plan: two more surprises
 
