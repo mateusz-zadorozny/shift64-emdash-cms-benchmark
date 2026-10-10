@@ -10,6 +10,7 @@ Full measurement artifacts from the benchmark published on SHIFT64:
 
 | File | What it is |
 |---|---|
+| **[`report-v3.md`](./report-v3.md)** | **Round two, October 2026: the technical deep-dive.** The D1 session queue, byline traps, Astro 7 and the free-plan CPU limit, page cache vs KV object cache, and 317 runs (24,726 requests) from the same VPS. Raw data in [`vps-results-2026-10.csv`](./vps-results-2026-10.csv), collected by [`vps-bench.py`](./vps-bench.py), summarised by [`vps-summary.py`](./vps-summary.py). |
 | **[`report-v2.md`](./report-v2.md)** | **The full written report.** 4,732 measurements, methodology across all three cron phases, per-page breakdowns, hourly cold-start distribution, Free vs Paid Workers A/B, and the post-optimization / post-caching follow-ups. This is what the article's data tables are drawn from. |
 | [`raport-v1.md`](./raport-v1.md) | Early Polish-language version covering just the first 3.5 hours of data (Phase 1 only). Kept as a historical artifact — superseded by `report-v2.md`. |
 | [`bench.sh`](./bench.sh) | The cron-scheduled bash collector that produced `results.csv`. Uses `curl --write-out` for full phase-by-phase timing breakdown (DNS / TCP / SSL / server / total TTFB), randomizes URL order per run, spawns a fresh `curl` process per URL to eliminate keep-alive and client-cache effects. |

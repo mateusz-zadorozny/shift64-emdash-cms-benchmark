@@ -5,6 +5,7 @@ Astro 7 + [EmDash CMS](https://github.com/emdash-cms/emdash) + Cloudflare Worker
 - **Article:** [I Bought the Domain Before I Ran the Test. EmDash Still Lost to WordPress.](https://shift64.com/blog/emdash-cms-vs-wordpress-honest-benchmark)
 - **Live site:** [emdashcms.pl](https://emdashcms.pl)
 - **WordPress control site repo:** [shift64-wp-theme-emdash-flavor](https://github.com/mateusz-zadorozny/shift64-wp-theme-emdash-flavor) — the hand-coded WordPress theme used as the comparison site, covering the same content set
+- **Round two (October 2026), technical deep-dive:** [`benchmark/report-v3.md`](./benchmark/report-v3.md) — what made EmDash 3× faster (D1 sessions, bylines, Astro 7), the KV object cache, and 24,726 fresh measurements against WordPress
 - **Full benchmark write-up in this repo:** [`benchmark/`](./benchmark/) — 4,732 measurements over ~3.5 days, `bench.sh` cron collector, `analyze.py`, raw `results.csv`, and the full `report-v2.md`
 
 ---
