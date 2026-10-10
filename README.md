@@ -12,22 +12,16 @@ Astro 7 + [EmDash CMS](https://github.com/emdash-cms/emdash) + Cloudflare Worker
 
 ## Branches
 
-There are two branches and **which branch you check out matters**:
+`main` is the site as it runs today on [emdashcms.pl](https://emdashcms.pl). The April versions are kept for reference.
 
-| Branch | What it is |
+| Branch or commit | What it is |
 |---|---|
-| `main` | The bare official [`emdash-blog`](https://github.com/emdash-cms/emdash-blog) starter template with content imported, deployed as-is. This is the **"before" baseline** — the version that scored 543 ms mean server processing in the benchmark. |
-| **`perf/server-defer-widgets`** | **The "faster" version.** Three optimization commits on top of `main`, described below. This is the version that scored 322 ms mean (−41% on server time, −66% on max spike). Still 4.1× slower than WordPress, but the best EmDash can do without edge caching. |
+| **`main`** | **The round-two site (October 2026).** EmDash 1.1, Astro 7, D1 sessions off with independent queries started together, the byline traps removed, comments preloaded, and a page cache that keeps pages for a day and is purged on every publish, comment or media change. Uncached server time: **170 ms** median, against WordPress's 78 ms; a page cache hit takes **28 ms**. See [`benchmark/report-v3.md`](./benchmark/report-v3.md). |
+| `exp/kv-object-cache` | `main` without the page cache, plus EmDash's KV object cache (`kvCache`), deployed as [kv.emdashcms.pl](https://kv.emdashcms.pl) for the round-two comparison: **136 ms** median, **12 ms** warm render. |
+| [`0e1a24e`](https://github.com/mateusz-zadorozny/shift64-emdash-cms-benchmark/tree/0e1a24e) | **The April baseline:** the bare official [`emdash-blog`](https://github.com/emdash-cms/emdash-blog) starter with content imported. It scored 543 ms mean server time in the [April article](https://shift64.com/blog/emdash-cms-vs-wordpress-honest-benchmark). |
+| `perf/server-defer-widgets` | **The April "faster" version:** `server:defer` widgets, batched tag queries and a Cache API edge cache on top of the baseline. It scored 322 ms mean, still 4.1× slower than WordPress. Merged into `main` in October. |
 
-Commits on the `perf/server-defer-widgets` branch (newest first):
-
-```
-ff3d075  perf: add edge caching via Cloudflare Cache API
-86e7d61  perf: replace N+1 tag queries with batched getTermsForEntries
-af1ae9b  perf: defer sidebar and footer widgets with server:defer
-```
-
-Every commit is a self-contained optimization — you can cherry-pick individually to see their isolated effect, or diff `main...perf/server-defer-widgets` to see the full set.
+The round-two changes came in through PRs [#8](https://github.com/mateusz-zadorozny/shift64-emdash-cms-benchmark/pull/8)–[#18](https://github.com/mateusz-zadorozny/shift64-emdash-cms-benchmark/pull/18); their branches are kept on the remote.
 
 ## Stack
 
@@ -43,6 +37,8 @@ Every commit is a self-contained optimization — you can cherry-pick individual
 | Package manager | npm |
 
 ## What we learned the hard way
+
+> **April 2026 findings.** Point 5 turned out to be wrong: the "floor" was D1 sessions running every query one at a time. With sessions off, uncached server time fell to 170 ms in October. See [`benchmark/report-v3.md`](./benchmark/report-v3.md).
 
 The article covers the headline numbers. This section is the longer list of things I wish the EmDash docs had flagged up front. Every one of these was a real rabbit hole during the benchmark.
 
