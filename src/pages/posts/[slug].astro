@@ -130,7 +130,7 @@ const publishDate =
 		{
 			post.data.featured_image && (
 				<div class="article-hero" {...post.edit.featured_image}>
-					<Image image={post.data.featured_image} />
+					<Image image={post.data.featured_image} priority />
 				</div>
 			)
 		}
@@ -374,9 +374,12 @@ const publishDate =
 		overflow: hidden;
 	}
 
+	/* External featured images carry no width/height, so reserve the box
+	   up front; otherwise the grid below shifts down when the image loads */
 	.article-hero img {
 		width: 100%;
 		height: auto;
+		aspect-ratio: 3 / 2;
 		max-height: 500px;
 		object-fit: cover;
 	}
