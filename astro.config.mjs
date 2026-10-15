@@ -17,6 +17,13 @@ export default defineConfig({
 	// into a purge of the HTML cache in src/worker.ts. Not Workers Cache: the
 	// adapter only enables that for its own "cloudflare" provider.
 	cache: { provider: { name: "html-cache", entrypoint: "./src/cache-provider.ts" } },
+	// Content language for EmDash: new entries, terms and menus get "pl".
+	// With a single locale EmDash keeps i18n off, so queries don't filter by
+	// locale and URLs get no /pl/ prefix.
+	i18n: {
+		defaultLocale: "pl",
+		locales: ["pl"],
+	},
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
