@@ -70,12 +70,6 @@ const isLoggedIn = !!Astro.locals.user;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap"
-			rel="stylesheet"
-		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{fullTitle}</title>
 		<EmDashHead page={pageCtx} />
@@ -389,11 +383,13 @@ const isLoggedIn = !!Astro.locals.user;
 				--emdash-search-highlight: var(--color-text);
 
 				/* Typography */
+				/* System fonts: nothing to download, nothing blocking the first render */
 				--font-sans:
-					"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-					sans-serif;
+					system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+					"Helvetica Neue", Arial, sans-serif;
 				--font-mono:
-					"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+					ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+					monospace;
 
 				/* Type scale - more refined */
 				--font-size-xs: 0.8125rem;

@@ -42,5 +42,15 @@ export default defineConfig({
 			plugins: [formsPlugin(), webhookNotifier],
 		}),
 	],
+	// Inline the site's stylesheets (each under 32 KB, ~3 KB gzipped) into the
+	// HTML so they don't block the first render with extra requests. The HTML
+	// is edge-cached anyway. The admin's ~270 KB stylesheet stays external.
+	// Returning undefined keeps Vite's default for every other asset.
+	vite: {
+		build: {
+			assetsInlineLimit: (file, content) =>
+				file.endsWith(".css") ? content.length < 32 * 1024 : undefined,
+		},
+	},
 	devToolbar: { enabled: false },
 });
