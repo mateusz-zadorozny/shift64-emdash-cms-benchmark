@@ -63,6 +63,28 @@ const pageCtx = createPublicPageContext({
 
 // Check if user is logged in (for showing admin link)
 const isLoggedIn = !!Astro.locals.user;
+
+// Chrome and Edge fetch a same-site page when the reader hovers a link for
+// ~200 ms (or touches it), so the click opens it at once. Other browsers
+// ignore this. "moderate", not "eager": a page missing from the HTML cache
+// costs a full render, and the Free plan has little CPU to spare. Signed-in
+// editors bypass the HTML cache, so they don't get it at all.
+const speculationRules = JSON.stringify({
+	prefetch: [
+		{
+			where: {
+				and: [
+					{ href_matches: "/*" },
+					{ not: { href_matches: "/*\\?*" } },
+					{ not: { href_matches: "/_emdash/*" } },
+					{ not: { href_matches: "/*.xml" } },
+					{ not: { selector_matches: "[rel~=nofollow]" } },
+				],
+			},
+			eagerness: "moderate",
+		},
+	],
+});
 ---
 
 <!doctype html>
@@ -86,6 +108,7 @@ const isLoggedIn = !!Astro.locals.user;
 				}
 			})();
 		</script>
+		{!isLoggedIn && <script is:inline type="speculationrules" set:html={speculationRules} />}
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />
@@ -506,6 +529,19 @@ const isLoggedIn = !!Astro.locals.user;
 				scroll-behavior: smooth;
 			}
 
+			/* Cross-fade between pages (Chrome, Edge, Safari 18.2+; others just
+			   navigate). Elements sharing a view-transition-name on both pages,
+			   like a post's image on its card and its hero, morph into each other. */
+			@media (prefers-reduced-motion: no-preference) {
+				@view-transition {
+					navigation: auto;
+				}
+			}
+
+			::view-transition-group(*) {
+				animation-duration: 250ms;
+			}
+
 			body {
 				font-family: var(--font-sans);
 				font-size: var(--font-size-base);
@@ -565,6 +601,8 @@ const isLoggedIn = !!Astro.locals.user;
 				backdrop-filter: blur(12px);
 				-webkit-backdrop-filter: blur(12px);
 				border-bottom: 1px solid var(--color-border-subtle);
+				/* Same on every page: keep it still instead of cross-fading it */
+				view-transition-name: site-header;
 			}
 
 			.nav {
