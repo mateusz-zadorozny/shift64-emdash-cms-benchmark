@@ -19,6 +19,7 @@ import { preloadComments } from "../../utils/comments-data";
 import { preloadLayoutData } from "../../utils/layout-data";
 import { getReadingTime } from "../../utils/reading-time";
 import { timed } from "../../utils/timing";
+import { postImageTransitionName } from "../../utils/view-transition";
 
 const { slug } = Astro.params;
 
@@ -129,7 +130,11 @@ const publishDate =
 		{/* Hero: Full-width featured image */}
 		{
 			post.data.featured_image && (
-				<div class="article-hero" {...post.edit.featured_image}>
+				<div
+					class="article-hero"
+					style={`view-transition-name: ${postImageTransitionName(post.id)}`}
+					{...post.edit.featured_image}
+				>
 					<Image image={post.data.featured_image} priority />
 				</div>
 			)

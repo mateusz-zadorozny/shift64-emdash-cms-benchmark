@@ -1,6 +1,7 @@
 ---
 import { getEmDashCollection, getTermsForEntries } from "emdash";
 import { Image } from "emdash/ui";
+import { postImageTransitionName } from "../utils/view-transition";
 import Base from "../layouts/Base.astro";
 import PostCard from "../components/PostCard.astro";
 import { preloadLayoutData } from "../utils/layout-data";
@@ -112,7 +113,10 @@ function formatDate(date: Date | null | undefined) {
 					<section class="featured-section">
 						<div class="featured-grid">
 							<a href={`/posts/${featuredPost.id}`} class="featured-image-link">
-								<div class="featured-image">
+								<div
+									class="featured-image"
+									style={`view-transition-name: ${postImageTransitionName(featuredPost.id)}`}
+								>
 									<Image image={featuredPost.data.featured_image} />
 								</div>
 							</a>

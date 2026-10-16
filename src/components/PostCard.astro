@@ -1,6 +1,7 @@
 ---
 import type { MediaValue, ContentBylineCredit } from "emdash";
 import { Image } from "emdash/ui";
+import { postImageTransitionName } from "../utils/view-transition";
 
 interface Props {
 	title: string;
@@ -24,6 +25,8 @@ const {
 	bylines,
 } = Astro.props;
 
+const transitionName = postImageTransitionName(href.split("/").pop() ?? href);
+
 const formattedDate = date
 	? date.toLocaleDateString("pl-PL", {
 			year: "numeric",
@@ -37,7 +40,7 @@ const formattedDate = date
 	<a href={href} class="card-link">
 		{
 			featuredImage ? (
-				<div class="card-image">
+				<div class="card-image" style={`view-transition-name: ${transitionName}`}>
 					<Image image={featuredImage} />
 				</div>
 			) : (
