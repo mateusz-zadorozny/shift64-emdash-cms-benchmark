@@ -1,0 +1,11 @@
+# Static copy of EmDash's default robots.txt: served as an asset, so crawlers
+# don't wake the Worker (a D1 query each time). It replaces EmDash's route, so
+# the robots.txt setting in the admin has no effect; edit this file instead.
+
+User-agent: *
+Allow: /
+
+# Disallow admin and API routes
+Disallow: /_emdash/
+
+Sitemap: https://emdashcms.pl/sitemap.xml
