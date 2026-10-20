@@ -11,6 +11,7 @@ import {
 	PortableText,
 } from "emdash/ui";
 import DeferredSidebar from "../../components/DeferredSidebar.astro";
+import ServiceCta from "../../components/ServiceCta.astro";
 import Base from "../../layouts/Base.astro";
 import Comments from "../../components/Comments.astro";
 import CommentForm from "../../components/CommentForm.astro";
@@ -201,6 +202,7 @@ const publishDate =
 							</div>
 						)
 					}
+					<ServiceCta variant="compact" placement="post-sidebar" />
 				</div>
 			</aside>
 
@@ -244,6 +246,8 @@ const publishDate =
 				<div class="article-content">
 					<PortableText value={post.data.content} />
 				</div>
+
+				<ServiceCta placement="post-end" class="article-service-cta" />
 
 				<div class="article-comments">
 					<Comments collection="posts" contentId={post.data.id} threaded />
@@ -901,6 +905,10 @@ const publishDate =
 	}
 
 	/* Comments section */
+	.article-content + :global(.article-service-cta) {
+		margin-top: var(--spacing-12);
+	}
+
 	.article-comments {
 		margin-top: var(--spacing-16);
 		padding-top: var(--spacing-10);

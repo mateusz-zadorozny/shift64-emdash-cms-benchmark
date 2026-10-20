@@ -1,0 +1,152 @@
+---
+import { serviceUrl, type ServicePlacement } from "../utils/service-links";
+
+interface Props {
+	/** compact: narrow sticky column next to a post; box: full-width panel. */
+	variant?: "compact" | "box";
+	placement: ServicePlacement;
+	class?: string;
+}
+
+const { variant = "box", placement, class: className } = Astro.props;
+const consultUrl = serviceUrl(placement, "#audyt");
+const offerUrl = serviceUrl(placement);
+---
+
+{
+	variant === "compact" ? (
+		<aside class:list={["service-cta", "service-cta--compact", className]}>
+			<span class="service-cta-label">Współpraca</span>
+			<p class="service-cta-title">Potrzebujesz strony na EmDash?</p>
+			<p class="service-cta-text">Projektujemy i wdrażamy szybkie strony na EmDash i Cloudflare.</p>
+			<a href={consultUrl} class="service-cta-link">Porozmawiajmy &rarr;</a>
+		</aside>
+	) : (
+		<aside class:list={["service-cta", "service-cta--box", className]}>
+			<span class="service-cta-label">Ten blog działa na EmDash</span>
+			<p class="service-cta-title">Zbudujemy taką stronę dla Ciebie</p>
+			<p class="service-cta-text">
+				SHIFT64 projektuje i wdraża strony na EmDash i Cloudflare. Zaczynamy od
+				bezpłatnej konsultacji: sprawdzamy, czy EmDash w ogóle pasuje do Twojego projektu.
+			</p>
+			<div class="service-cta-actions">
+				<a href={consultUrl} class="service-cta-btn service-cta-btn--primary">Darmowa konsultacja</a>
+				<a href={offerUrl} class="service-cta-btn service-cta-btn--secondary">Zobacz ofertę &rarr;</a>
+			</div>
+		</aside>
+	)
+}
+
+<style>
+	.service-cta-label {
+		display: block;
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-muted);
+		margin-bottom: var(--spacing-2);
+	}
+
+	.service-cta-title {
+		font-weight: 600;
+		color: var(--color-text);
+		line-height: var(--leading-snug);
+	}
+
+	.service-cta-text {
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	/* Compact: narrow left column on a post */
+	.service-cta--compact {
+		padding-top: var(--spacing-6);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.service-cta--compact .service-cta-title {
+		font-size: var(--font-size-sm);
+		margin-bottom: var(--spacing-1);
+	}
+
+	.service-cta--compact .service-cta-text {
+		font-size: var(--font-size-xs);
+		margin-bottom: var(--spacing-3);
+	}
+
+	.service-cta-link {
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.service-cta-link:hover {
+		color: var(--color-accent-hover);
+		text-decoration: underline;
+	}
+
+	/* Box: full-width panel */
+	.service-cta--box {
+		padding: var(--spacing-8);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-left: 3px solid var(--color-accent);
+		border-radius: var(--radius);
+	}
+
+	.service-cta--box .service-cta-title {
+		font-size: var(--font-size-xl);
+		margin-bottom: var(--spacing-2);
+	}
+
+	.service-cta--box .service-cta-text {
+		font-size: var(--font-size-base);
+		margin-bottom: var(--spacing-5);
+	}
+
+	.service-cta-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-3);
+	}
+
+	.service-cta-btn {
+		display: inline-flex;
+		align-items: center;
+		padding: var(--spacing-2) var(--spacing-5);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		border-radius: var(--radius);
+		text-decoration: none;
+		transition: all var(--transition-fast);
+	}
+
+	.service-cta-btn--primary {
+		background: var(--color-text);
+		color: var(--color-bg);
+	}
+
+	.service-cta-btn--primary:hover {
+		opacity: 0.85;
+		color: var(--color-bg);
+	}
+
+	.service-cta-btn--secondary {
+		color: var(--color-text-secondary);
+		border: 1px solid var(--color-border);
+		background: var(--color-bg);
+	}
+
+	.service-cta-btn--secondary:hover {
+		color: var(--color-text);
+		border-color: var(--color-text-secondary);
+	}
+
+	@media (max-width: 600px) {
+		.service-cta--box {
+			padding: var(--spacing-6);
+		}
+	}
+</style>
