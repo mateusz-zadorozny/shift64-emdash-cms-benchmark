@@ -1,6 +1,7 @@
 ---
 import { getEmDashCollection, getTermsForEntries } from "emdash";
 import Base from "../../layouts/Base.astro";
+import ServiceCta from "../../components/ServiceCta.astro";
 import { preloadLayoutData } from "../../utils/layout-data";
 import { getReadingTime } from "../../utils/reading-time";
 import { timed } from "../../utils/timing";
@@ -27,6 +28,9 @@ const postsWithTags = sortedPosts.map((post) => ({
 	bylines: post.data.bylines ?? [],
 }));
 
+// The service CTA goes after the 2nd post, or after the last one on a short list
+const ctaAfterIndex = Math.min(1, postsWithTags.length - 1);
+
 const formatDate = (date: Date) =>
 	date.toLocaleDateString("pl-PL", {
 		year: "numeric",
@@ -50,7 +54,8 @@ const formatDate = (date: Date) =>
 				<p class="empty">Brak wpisów.</p>
 			) : (
 				<div class="posts-list">
-					{postsWithTags.map(({ post, tags, bylines }) => (
+					{postsWithTags.map(({ post, tags, bylines }, index) => (
+						<>
 						<article class="post-item">
 							<a href={`/posts/${post.id}`} class="post-link">
 								<div class="post-meta">
@@ -102,6 +107,10 @@ const formatDate = (date: Date) =>
 								</div>
 							)}
 						</article>
+						{index === ctaAfterIndex && (
+							<ServiceCta placement="post-list" class="posts-service-cta" />
+						)}
+						</>
 					))}
 				</div>
 			)
@@ -153,6 +162,10 @@ const formatDate = (date: Date) =>
 
 	.post-item:last-child {
 		border-bottom: none;
+	}
+
+	.posts-list > :global(.posts-service-cta) {
+		margin: var(--spacing-8) 0;
 	}
 
 	.post-link {

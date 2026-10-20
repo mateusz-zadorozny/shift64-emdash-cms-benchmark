@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { serviceUrl } from "../utils/service-links";
 ---
 
 <Base title="Nie znaleziono strony">
@@ -7,6 +8,9 @@ import Base from "../layouts/Base.astro";
 		<h1>404</h1>
 		<p>Strona, której szukasz, nie istnieje.</p>
 		<a href="/">Wróć na stronę główną</a>
+		<p class="not-found-service">
+			Szukasz kogoś, kto zbuduje Ci stronę na EmDash? <a href={serviceUrl("404")}>Poznaj SHIFT64 &rarr;</a>
+		</p>
 	</div>
 </Base>
 
@@ -25,6 +29,12 @@ import Base from "../layouts/Base.astro";
 	.not-found p {
 		color: var(--color-muted);
 		margin-bottom: var(--spacing-6);
+	}
+
+	.not-found .not-found-service {
+		margin-top: var(--spacing-12);
+		margin-bottom: 0;
+		font-size: var(--font-size-sm);
 	}
 
 	.not-found a {
