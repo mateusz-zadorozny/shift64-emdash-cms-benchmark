@@ -73,6 +73,13 @@ export default {
 			return render(request, env, ctx);
 		}
 
+		// One URL per page: links, canonicals and the sitemap use /posts, so
+		// /posts/ (which Astro also renders) redirects there
+		if (url.pathname.length > 1 && url.pathname.endsWith("/")) {
+			url.pathname = url.pathname.replace(/\/+$/, "") || "/";
+			return Response.redirect(url.toString(), 301);
+		}
+
 		if (hasBypassCookie(request)) {
 			return render(request, env, ctx);
 		}

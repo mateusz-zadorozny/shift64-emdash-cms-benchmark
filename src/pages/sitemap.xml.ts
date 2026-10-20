@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getEmDashCollection, getTaxonomyTerms } from "emdash";
+import { HTML_CACHE_CONTROL } from "../utils/html-cache";
 
 export const GET: APIRoute = async ({ url }) => {
 	const siteUrl = url.origin;
@@ -16,8 +17,9 @@ export const GET: APIRoute = async ({ url }) => {
 
 	const urls: { loc: string; lastmod?: string; priority?: string }[] = [];
 
-	// Homepage
-	urls.push({ loc: siteUrl, priority: "1.0" });
+	// Homepage. Other URLs have no trailing slash, like the links and
+	// canonicals (src/worker.ts redirects /posts/ to /posts)
+	urls.push({ loc: `${siteUrl}/`, priority: "1.0" });
 
 	// Posts index
 	urls.push({ loc: `${siteUrl}/posts`, priority: "0.8" });
@@ -74,7 +76,10 @@ ${urlEntries}
 	return new Response(sitemap, {
 		headers: {
 			"Content-Type": "application/xml; charset=utf-8",
-			"Cache-Control": "public, max-age=3600",
+			// s-maxage puts it in the HTML cache (src/worker.ts), purged on content
+			// changes. Rendering it takes 7 D1 queries and more CPU than the Free
+			// plan's 10 ms, so crawlers must not trigger a render each time.
+			"Cache-Control": HTML_CACHE_CONTROL,
 		},
 	});
 };
