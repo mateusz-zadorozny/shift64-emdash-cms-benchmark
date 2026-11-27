@@ -7,8 +7,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "wrangler deploy",
-    "typecheck": "astro check"
+    "deploy": "wrangler deploy && npm run warm",
+    "typecheck": "astro check",
+    "warm": "node scripts/warm-cache.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
