@@ -3,7 +3,8 @@
  * of the HTML cache in src/worker.ts (see src/utils/html-cache.ts).
  *
  * EmDash calls invalidate() after it changes published content, menus,
- * taxonomies, widgets, bylines or settings, and after scheduled publishing,
+ * taxonomies, widgets, bylines or settings, after scheduled publishing, and
+ * (since 1.5) when an approved comment is published, moderated or deleted,
  * but only when a cache provider is configured. This one caches nothing
  * itself and sets no headers.
  */
