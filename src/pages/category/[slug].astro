@@ -16,7 +16,7 @@ preloadLayoutData(Astro.locals);
 
 // The posts filter only needs the slug, so look the term up at the same time.
 // The page doesn't show the term's post count, so skip that query.
-const [term, { entries: posts }] = await timed(Astro.locals, "D1:term+posts", () =>
+const [term, { entries: posts, cacheHint }] = await timed(Astro.locals, "D1:term+posts", () =>
 	Promise.all([
 		getTerm("category", slug, { includeCounts: false }),
 		getEmDashCollection("posts", {
@@ -29,6 +29,8 @@ const [term, { entries: posts }] = await timed(Astro.locals, "D1:term+posts", ()
 if (!term) {
 	return Astro.redirect("/404");
 }
+
+Astro.cache.set(cacheHint);
 
 // Batch: fetch tags for all posts in a single query
 const tagsMap = await getTermsForEntries("posts", posts.map((p) => p.data.id), "tag");
