@@ -40,9 +40,12 @@ function cacheKeyUrl(url: URL, version: string): string {
 	return keyUrl.toString();
 }
 
-// EmDash doesn't report comment and media changes to the cache provider, but
-// both show on public pages
-const WRITES_THAT_PURGE = /^\/_emdash\/api\/(admin\/)?(comments|media)(\/|$)/;
+// EmDash doesn't report every media change to the cache provider (alt text
+// and metadata edits, for example), but media shows on public pages. Comments
+// aren't here: since EmDash 1.5 the provider gets an invalidation when an
+// approved comment is published, moderated or deleted, and a pending or spam
+// comment changes no public page.
+const WRITES_THAT_PURGE = /^\/_emdash\/api\/(admin\/)?media(\/|$)/;
 const WRITE_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
 // Signed-in editors (Astro session) and visual editing must bypass the cache,

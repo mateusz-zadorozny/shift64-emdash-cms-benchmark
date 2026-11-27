@@ -8,8 +8,9 @@
  * that points at the previous build's assets.
  *
  * Purges come from src/cache-provider.ts (EmDash's invalidations: content,
- * menus, taxonomies, widgets, bylines, settings, scheduled publishing) and
- * from src/worker.ts (comment and media writes, which EmDash doesn't report).
+ * menus, taxonomies, widgets, bylines, settings, scheduled publishing,
+ * approved comments) and from src/worker.ts (media writes, which EmDash
+ * doesn't fully report).
  */
 
 import { env } from "cloudflare:workers";

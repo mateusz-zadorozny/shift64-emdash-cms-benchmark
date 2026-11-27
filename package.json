@@ -7,17 +7,18 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "wrangler deploy",
-    "typecheck": "astro check"
+    "deploy": "wrangler deploy && npm run warm",
+    "typecheck": "astro check",
+    "warm": "node scripts/warm-cache.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
     "@astrojs/react": "^6.0.6",
-    "@emdash-cms/cloudflare": "^1.2.0",
-    "@emdash-cms/plugin-forms": "^0.2.9",
-    "@emdash-cms/plugin-webhook-notifier": "^0.2.3",
+    "@emdash-cms/cloudflare": "^1.6.0",
+    "@emdash-cms/plugin-forms": "^0.2.14",
+    "@emdash-cms/plugin-webhook-notifier": "^0.2.4",
     "astro": "^7.3.5",
-    "emdash": "^1.2.0",
+    "emdash": "^1.6.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
