@@ -103,14 +103,15 @@ export default {
 			const hit = new Response(cached.body, cached);
 			hit.headers.set("X-Cache", "HIT");
 			// The stored copy gets the zone's browser TTL (max-age=14400);
-			// restore max-age=0 so browsers revalidate as the middleware intends
+			// restore max-age=0 so browsers revalidate (src/cache-provider.ts sets it)
 			hit.headers.set("Cache-Control", HTML_CACHE_CONTROL);
 			return hit;
 		}
 
 		const response = await render(request, env, ctx);
 
-		// Only cache responses that have our s-maxage header (set by middleware)
+		// Only cache responses that have our s-maxage header (set by
+		// src/cache-provider.ts on pages that call Astro.cache.set)
 		const cacheControl = response.headers.get("Cache-Control");
 		if (response.status === 200 && cacheControl?.includes("s-maxage")) {
 			const toCache = response.clone();
