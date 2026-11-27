@@ -1,0 +1,145 @@
+{
+	"title": "EmDash 1.6: krótszy rozruch strony i zdjęcia w cache na rok. Co zyskujesz jako właściciel",
+	"excerpt": "EmDash 1.6 nie ma jednej efektownej nowości. Ma za to roczny cache zdjęć, krótszy rozruch strony po przerwie w ruchu i publikację o zaplanowanej godzinie. Zaktualizowaliśmy emdash.pl z 1.3 do 1.6 i zmierzyliśmy, gdzie naprawdę jest różnica, a gdzie jej nie ma.",
+	"content": "22 listopada 2026 ukazał się [EmDash 1.6](https://github.com/emdash-cms/emdash/releases/tag/emdash%401.6.0). Na liście zmian nie ma funkcji, którą można pokazać na prezentacji. Jest za to kilka poprawek, które decydują o tym, jak szybko strona firmowa odpowiada, gdy chwilę wcześniej nikt jej nie odwiedzał: po wdrożeniu, po publikacji, na rzadziej czytanych podstronach.\n\nZaktualizowaliśmy tę stronę z wersji 1.3 do 1.6 i zmierzyliśmy różnicę. Poniżej to, co 1.6 daje właścicielowi strony, uczciwe liczby przed i po oraz pułapki, na które trzeba uważać przy aktualizacji.",
+	"sections": [
+		{
+			"_type": "rich_text",
+			"_key": "kontekst",
+			"label": "Kontekst",
+			"heading": "Klient tego wydania *nie zobaczy*, ale je odczuje",
+			"content": "Strona na EmDashu i Cloudflare ma dwie ścieżki. Gdy strona jest w cache, odpowiada w kilkadziesiąt milisekund: Cloudflare oddaje gotowy HTML i nie budzi bazy danych. Gdy jej tam nie ma, serwer składa ją od nowa: pyta bazę o treść, menu i ustawienia i dopiero wtedy wysyła odpowiedź.\n\nNa tę wolniejszą ścieżkę trafiają najczęściej:\n\n- **pierwszy odwiedzający po wdrożeniu** nowej wersji strony,\n- **robot Google**, który regularnie zagląda na podstrony, których od dawna nikt nie czytał,\n- **ruch z reklamy** wpuszczony na świeżo opublikowany landing.\n\nPrzy małym ruchu, typowym dla strony firmowej, dochodzi do tego zimny start: serwer między odwiedzinami „zasypia” i przed złożeniem strony musi się najpierw obudzić. EmDash 1.6 skraca przede wszystkim ten rozruch, a zdjęcia i powtarzane błędy 404 częściej obsługuje z cache, bez sięgania do bazy i magazynu plików."
+		},
+		{
+			"_type": "feature_table",
+			"_key": "zmiany",
+			"label": "Przed i po",
+			"heading": "Co EmDash 1.6 zmienia na *Twojej stronie*",
+			"intro": "Najważniejsze zmiany z wydania 1.6, przełożone na sytuacje, które zna każdy właściciel strony firmowej.",
+			"column_1": "Sytuacja",
+			"column_2": "Co daje 1.6",
+			"numbered": true,
+			"rows": [
+				{
+					"title": "Strona po przerwie w ruchu",
+					"description": "Gdy serwer budzi się po przerwie, pierwsze wejście nie robi już zbędnego zapisu do bazy, a dane wpisu potrzebne w kilku miejscach strony pobiera tylko raz. Na emdash.pl sam rozruch EmDasha skrócił się mniej więcej o połowę."
+				},
+				{
+					"title": "Zdjęcia na każdej podstronie",
+					"description": "Oryginały i przeskalowane wersje zdjęć Cloudflare trzyma w cache przez rok, więc kolejni odwiedzający dostają je z najbliższego centrum danych. Podmiana zdjęcia w panelu czyści jego cache. Warunek: strona korzysta ze standardowego cache Cloudflare. Tak jest na emdash.pl, a przy nowej stronie ustawiamy to od początku."
+				},
+				{
+					"title": "Ktoś wraca pod nieistniejący adres",
+					"description": "Gdy ktoś, często bot, wielokrotnie wchodzi pod ten sam nieistniejący adres, na przykład stary link do usuniętego wpisu, strona 404 jest przez 60 sekund podawana z cache, bez ponownego składania z bazy. Gdy opublikujesz stronę pod tym adresem, zapisany błąd jest czyszczony przy publikacji, a w najgorszym razie wygasa po minucie."
+				},
+				{
+					"title": "Kampania startuje o 9:00",
+					"description": "Zaplanowane wpisy wychodzą o zaplanowanej godzinie. Wcześniej mogły pojawić się nawet minutę później, bo czekały na kolejne uruchomienie zadania w tle."
+				},
+				{
+					"title": "Wyszukiwarka na stronie",
+					"description": "Wyszukiwanie i podpowiedzi czytają z bazy danych Cloudflare (D1) mniej danych. Przy dużej liczbie wpisów wyniki pojawiają się szybciej, a strona dłużej mieści się w darmowych limitach."
+				},
+				{
+					"title": "Codzienna praca w panelu",
+					"description": "W panelu doszła ścieżka nawigacji w nagłówku (widać, w którym miejscu jesteś), przycisk, który chowa ustawienia i poszerza edytor, oraz potwierdzanie bezpiecznych akcji, takich jak publikacja, klawiszem Enter. Sekcja „Używane w” przy zdjęciu pokazuje też zdjęcia wstawione jako link, więc przed usunięciem pliku łatwiej sprawdzić, gdzie jeszcze jest potrzebny."
+				}
+			],
+			"callout": "Żadna z tych zmian nie wymaga przebudowy szablonu ani zmian w treści. Dwa warunki: cache zdjęć działa przy standardowym cache Cloudflare, a żeby sekcja „Używane w” widziała zdjęcia w istniejących wpisach, po aktualizacji trzeba raz przeindeksować bibliotekę mediów."
+		},
+		{
+			"_type": "metrics",
+			"_key": "pomiar",
+			"items": [
+				{
+					"label": "Rozruch EmDasha",
+					"value": "−55%",
+					"description": "Przy zimnym starcie, mediana z 4 podstron. Wcześniej 172–292 ms, teraz 76–135 ms."
+				},
+				{
+					"label": "Strona główna, zimny start",
+					"value": "0,96 s",
+					"description": "Czas do pierwszego bajtu. Przed aktualizacją 1,09 s."
+				},
+				{
+					"label": "Bez cache, serwer działa",
+					"value": "~0,3 s",
+					"description": "Tak samo przed aktualizacją i po niej. Tu 1.6 nie przyspiesza."
+				},
+				{
+					"label": "Po wdrożeniu, z rozgrzaniem",
+					"value": "0,1 s",
+					"description": "Gdy cache rozgrzał skrypt (53–117 ms). Bez rozgrzania 0,9–1,6 s, niezależnie od wersji EmDasha."
+				}
+			],
+			"footnote": "Czas do pierwszego bajtu: po nim przeglądarka zaczyna cokolwiek wyświetlać. Pomiar na emdash.pl 27 listopada 2026, 10 żądań na 4 podstrony z pominięciem cache, z Warszawy; żądania z zimnym startem i bez niego porównujemy osobno. Szczegóły i pomiary emdashcms.pl: [przegląd EmDash 1.3–1.6](https://emdashcms.pl/posts/emdash-1-3-do-1-6-aktualizacja?utm_source=emdash.pl&utm_medium=post-body&utm_campaign=blog)."
+		},
+		{
+			"_type": "rich_text",
+			"_key": "zimny-start",
+			"label": "Gdzie ucieka czas",
+			"heading": "Najdroższe jest *pierwsze* wejście",
+			"content": "Wejście na stronę bez cache, gdy serwer już działa, trwało u nas około 0,3 sekundy przed aktualizacją i tyle samo po niej. Różnica jest tam, gdzie serwer musi się najpierw obudzić: takie wejście jest o 0,6–1,4 sekundy wolniejsze od zwykłego, a EmDash 1.6 skraca jego część po stronie EmDasha mniej więcej o połowę.\n\nSamego rozruchu serwera wersja 1.6 nie usunie, dlatego przy każdym wdrożeniu robimy jeszcze jedną rzecz: **rozgrzewamy cache**. Zaraz po wdrożeniu skrypt odwiedza każdą stronę z mapy strony, po jednej co półtorej sekundy. Pierwsze złożenie strony, które trwałoby 0,9–1,6 sekundy, bierze na siebie skrypt, a nie klient. Przynajmniej w Polsce, bo cache Cloudflare jest osobny dla każdego centrum danych, a skrypt rozgrzewa najbliższe, warszawskie.\n\nJest też podejście radykalne. W eksperymencie opisanym na blogu kevinkyburz.ch cały EmDash razem z bazą trafił do jednego Durable Object, czyli usługi Cloudflare, w której kod i dane siedzą w tym samym miejscu. Strony podawane bez cache przyspieszyły tam od 2,6 do prawie 10 razy. To jednak własny, nieopublikowany kod, który trzeba sprawdzać przy każdej aktualizacji, a koszty w tamtym tekście są liczone na płatnym planie. [Opisaliśmy, kiedy to się opłaca](https://emdashcms.pl/posts/emdash-durable-object-czy-d1?utm_source=emdash.pl&utm_medium=post-body&utm_campaign=blog), a kiedy wystarczy dobrze ustawiona strona na zwykłej bazie D1."
+		},
+		{
+			"_type": "cards",
+			"_key": "uwaga",
+			"label": "Aktualizacja",
+			"heading": "Na co uważać przy *aktualizacji*",
+			"intro": "Aktualizacja do 1.6 nie zmienia nic w treści ani w szablonie, ale nie jest kliknięciem jednego przycisku. Te cztery rzeczy sprawdzamy przed wdrożeniem, a nie po nim.",
+			"tag_title": "ryzyko:",
+			"tag_body": "jak to robimy:",
+			"items": [
+				{
+					"title": "Migracje bazy danych",
+					"description": "Między 1.3 a 1.6 jest siedem migracji, czyli zmian w strukturze bazy danych. Na darmowym planie Cloudflare strona nie zdąży ich wykonać przy pierwszym wejściu odwiedzającego, więc uruchamiamy je ręcznie przed wdrożeniem, zaraz po zapisaniu punktu przywracania bazy."
+				},
+				{
+					"title": "Konflikt wersji bibliotek",
+					"description": "Oficjalne narzędzie EmDasha wycofuje wszystkie zmiany, gdy menedżer pakietów (npm) nie potrafi pogodzić wersji bibliotek. Wtedy aktualizujemy biblioteki EmDasha ręcznie, wszystkie naraz, i sprawdzamy, że zmieniły się tylko one i ich bezpośrednie zależności."
+				},
+				{
+					"title": "Własne wtyczki",
+					"description": "Jedna z migracji z wersji 1.5 przenosi dane wtyczek. Zanim ją uruchomimy, sprawdzamy w danych strony, czy dotyczy naszych wtyczek. Na emdash.pl formularz kontaktowy działa dalej bez żadnych poprawek."
+				},
+				{
+					"title": "Podmiana zdjęcia",
+					"description": "Gdy podmieniasz plik w bibliotece mediów, EmDash wysyła do Cloudflare jedno polecenie wyczyszczenia cache. Jeśli to polecenie się nie powiedzie, odwiedzający mogą widzieć stare zdjęcie nawet przez rok. Przy ważnych grafikach, na przykład z cennikiem albo logo, bezpieczniej wgrać nowy plik i podmienić go we wpisie."
+				}
+			]
+		},
+		{
+			"_type": "accordion",
+			"_key": "faq",
+			"label": "FAQ",
+			"heading": "*Pytania*, które słyszymy przed aktualizacją",
+			"answer_prefix": "→ SHIFT64",
+			"open_mode": "pierwsze otwarte",
+			"items": [
+				{
+					"question": "Czy strona przestaje działać na czas aktualizacji?",
+					"answer": "Zwykle nie. Na emdash.pl zmiany w bazie przeszły bez wyłączania strony, a nowa wersja kodu weszła w około minutę bez przerwy dla odwiedzających. Na czas zmian w bazie lepiej nie edytować treści w panelu. Strony z wtyczkami, które używają unikalnych indeksów w swoich danych, potrzebują przy przejściu przez 1.5 krótkiego okna serwisowego. Sprawdzamy to przed wdrożeniem."
+				},
+				{
+					"question": "Czy da się wrócić do poprzedniej wersji?",
+					"answer": "Tak. Poprzednia wersja strony wraca jedną komendą, a przed migracjami zapisujemy punkt przywracania bazy. Przed migracjami sprawdzamy też w kodzie, czy poprzednia wersja poradzi sobie z bazą po zmianach, żeby cofnięcie samego kodu nie wymagało cofania danych."
+				},
+				{
+					"question": "Czy EmDash 1.6 wymaga płatnego planu Cloudflare?",
+					"answer": "Nie. Zarówno emdash.pl, jak i emdashcms.pl działają na 1.6 na darmowym planie Cloudflare. Współedycja w czasie rzeczywistym z wersji 1.5 (kilka osób edytuje ten sam wpis naraz, jak w Google Docs) wymaga dodatkowej usługi Cloudflare i jest opcjonalna. Darmowy plan ma jednak limit czasu procesora na każde wejście: przy nagłych skokach ruchu na strony spoza cache potrafi odpowiadać błędem. Przy większym ruchu warto liczyć się z planem płatnym, od 5 dolarów miesięcznie."
+				},
+				{
+					"question": "Czy warto aktualizować, jeśli strona działa dobrze?",
+					"answer": "Tak, jeśli masz mały lub nierówny ruch, bo wtedy często trafia się zimny start, albo planujesz publikacje na konkretną godzinę. Jeśli strona ma stały ruch i prawie wszystko podaje z cache, różnicę zobaczysz głównie w zdjęciach i w panelu. U nas strona bez cache, gdy serwer już działał, odpowiadała tak samo szybko przed i po."
+				}
+			]
+		},
+		{
+			"_type": "rich_text",
+			"_key": "dalej",
+			"label": "Podsumowanie",
+			"heading": "Strona, która *nie każe czekać* pierwszemu klientowi",
+			"content": "EmDash 1.6 to wydanie dla stron, które mają działać szybko także wtedy, gdy nikt na nie akurat nie patrzy: po wdrożeniu, po publikacji, na podstronach, które odwiedza głównie Google. Zyski nie wymagają zmian w treści ani w szablonie, ale sama aktualizacja wymaga staranności: zmiany w bazie trzeba wykonać przed publikacją nowej wersji, cache rozgrzać, a wtyczki sprawdzić.\n\nTechniczne szczegóły wszystkich wydań od 1.3 do 1.6 opisaliśmy [na emdashcms.pl](https://emdashcms.pl/posts/emdash-1-3-do-1-6-aktualizacja?utm_source=emdash.pl&utm_medium=post-body&utm_campaign=blog). A jeśli myślisz o stronie na EmDashu albo aktualizacji obecnej do 1.6, [porozmawiajmy o projekcie](/#audyt)."
+		}
+	]
+}

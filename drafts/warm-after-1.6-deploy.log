@@ -1,0 +1,47 @@
+
+> emdash-cms-pl@0.0.1 warm
+> node scripts/warm-cache.mjs
+
+warming 41 pages from https://emdashcms.pl/sitemap.xml, 1500 ms apart
+200 MISS   275 ms  https://emdashcms.pl/
+200 MISS   210 ms  https://emdashcms.pl/posts
+200 MISS   253 ms  https://emdashcms.pl/posts/emdash-1-2-smaczki-i-co-w-1-3
+200 MISS   235 ms  https://emdashcms.pl/posts/emdash-vs-wordpress-rewanz
+200 MISS   212 ms  https://emdashcms.pl/posts/emdash-1-0-rejestr-wtyczek-cmswire
+200 MISS   224 ms  https://emdashcms.pl/posts/recenzja-emdash-bitdoze-pol-roku
+200 MISS   353 ms  https://emdashcms.pl/posts/emdash-1-1-co-nowego-aktualizacja
+200 MISS   212 ms  https://emdashcms.pl/posts/emdash-vs-wordpress-szczery-benchmark
+200 MISS   174 ms  https://emdashcms.pl/posts/miriam-schwab-emdash-sygnal-nie-nastepca
+200 MISS   295 ms  https://emdashcms.pl/posts/joost-de-valk-emdash-wordpress-refaktoryzacja
+200 MISS   174 ms  https://emdashcms.pl/posts/maciek-palmowski-o-emdash-cms
+200 MISS   259 ms  https://emdashcms.pl/posts/matt-mullenweg-o-emdash-cms
+200 MISS   444 ms  https://emdashcms.pl/posts/przyszlosc-cms-emdash
+200 MISS   220 ms  https://emdashcms.pl/posts/architektura-emdash-typescript-astro
+200 MISS   254 ms  https://emdashcms.pl/posts/monetyzacja-tresci-x402-emdash
+200 MISS   191 ms  https://emdashcms.pl/posts/emdash-sztuczna-inteligencja-ai
+200 MISS   170 ms  https://emdashcms.pl/posts/wtyczki-emdash-cms
+200 MISS   197 ms  https://emdashcms.pl/posts/emdash-open-source-licencja-mit
+200 MISS   266 ms  https://emdashcms.pl/posts/migracja-z-wordpress-do-emdash
+200 MISS   207 ms  https://emdashcms.pl/posts/emdash-serverless-cloudflare-workers
+200 MISS   263 ms  https://emdashcms.pl/posts/bezpieczenstwo-wtyczek-emdash
+200 MISS   245 ms  https://emdashcms.pl/posts/jak-zainstalowac-emdash-cms
+200 MISS   173 ms  https://emdashcms.pl/posts/emdash-vs-wordpress
+200 MISS   160 ms  https://emdashcms.pl/posts/co-to-jest-emdash-cms
+200 MISS   130 ms  https://emdashcms.pl/pages/o-emdash
+200 MISS   177 ms  https://emdashcms.pl/category/mowi-sie-o-emdash
+200 MISS   218 ms  https://emdashcms.pl/category/poradniki
+200 MISS   130 ms  https://emdashcms.pl/category/porownania
+200 MISS   175 ms  https://emdashcms.pl/category/technologia
+200 MISS   140 ms  https://emdashcms.pl/category/wprowadzenie
+200 MISS   216 ms  https://emdashcms.pl/tag/ai
+200 MISS   229 ms  https://emdashcms.pl/tag/astro
+200 MISS   126 ms  https://emdashcms.pl/tag/bezpieczenstwo
+200 MISS   137 ms  https://emdashcms.pl/tag/cloudflare
+200 MISS   366 ms  https://emdashcms.pl/tag/emdash
+200 MISS   165 ms  https://emdashcms.pl/tag/migracja
+200 MISS   150 ms  https://emdashcms.pl/tag/open-source
+200 MISS   165 ms  https://emdashcms.pl/tag/serverless
+200 MISS   509 ms  https://emdashcms.pl/tag/typescript
+200 MISS   139 ms  https://emdashcms.pl/tag/wordpress
+200 MISS   167 ms  https://emdashcms.pl/tag/wtyczki
+done: 41 rendered and cached, 0 already cached

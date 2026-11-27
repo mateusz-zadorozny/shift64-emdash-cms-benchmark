@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=block" rel="stylesheet">
+<style>
+	:root {
+		--black: #000;
+		--white: #fff;
+		--dark: #111827;
+		--pink: #ec4899;
+		--yellow: #fde047;
+		--gray-400: #9ca3af;
+		--gray-700: #374151;
+	}
+	* { box-sizing: border-box; margin: 0; padding: 0; }
+	html, body { width: 1600px; height: 900px; }
+	body {
+		background: var(--white);
+		border: 6px solid var(--black);
+		font-family: Inter, system-ui, sans-serif;
+		color: var(--black);
+		display: grid;
+		grid-template-columns: 1fr 640px;
+		align-items: center;
+		gap: 64px;
+		padding: 0 104px 0 104px;
+	}
+	.brand { font-weight: 900; font-size: 34px; letter-spacing: -0.02em; margin-bottom: 36px; }
+	.label {
+		display: inline-block; background: var(--yellow); border: 3px solid var(--black);
+		box-shadow: 4px 4px 0 0 var(--black);
+		font-weight: 900; font-size: 26px; letter-spacing: 0.06em; text-transform: uppercase;
+		padding: 8px 16px; margin-bottom: 28px;
+	}
+	h1 {
+		font-weight: 900; font-size: 108px; line-height: 1.04; letter-spacing: -0.03em;
+		text-transform: uppercase;
+	}
+	h1 .pink { color: var(--pink); }
+	.card-wrap { position: relative; }
+	.card-wrap::before {
+		content: ""; position: absolute; inset: 0; transform: translate(18px, 18px);
+		background: var(--pink); border: 3px solid var(--black);
+	}
+	.card {
+		position: relative; background: var(--dark); border: 4px solid var(--black);
+		padding: 44px 48px 48px; color: var(--white);
+		font-family: "JetBrains Mono", ui-monospace, monospace;
+	}
+	.prompt { color: var(--yellow); font-weight: 700; font-size: 26px; margin-bottom: 30px; }
+	.caption {
+		font-family: Inter, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.08em;
+		text-transform: uppercase; color: var(--gray-400); margin-bottom: 14px;
+	}
+	.row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 18px; }
+	.path { font-size: 30px; font-weight: 500; color: var(--white); }
+	.nums { font-family: Inter, sans-serif; font-weight: 900; font-size: 52px; letter-spacing: -0.02em; }
+	.nums .old { color: var(--gray-400); font-size: 36px; text-decoration: line-through; text-decoration-thickness: 3px; margin-right: 14px; }
+	.nums .new { color: var(--pink); }
+	hr { border: 0; border-top: 3px dashed #4b5563; margin: 26px 0 26px; }
+	.badge {
+		display: inline-block; background: var(--yellow); color: var(--black); border: 3px solid var(--black);
+		font-family: Inter, sans-serif; font-weight: 900; font-size: 24px; letter-spacing: 0.04em;
+		text-transform: uppercase; padding: 10px 18px;
+	}
+</style>
+</head>
+<body>
+	<div>
+		<div class="brand">SHIFT64</div>
+		<div class="label">EmDash 1.6</div>
+		<h1>Krótszy<br><span class="pink">rozruch</span><br>strony po<br>przerwie.</h1>
+	</div>
+	<div class="card-wrap">
+		<div class="card">
+			<div class="prompt">$ emdash.pl, 1.3 → 1.6</div>
+			<div class="caption">Rozruch EmDasha przy zimnym starcie</div>
+			<div class="row"><span class="path">/</span><span class="nums"><span class="old">195</span><span class="new">76 ms</span></span></div>
+			<div class="row"><span class="path">/posts</span><span class="nums"><span class="old">292</span><span class="new">85 ms</span></span></div>
+			<hr>
+			<div class="caption">Bez cache, serwer już działa</div>
+			<div class="row" style="margin-bottom: 30px"><span class="path">~0,3 s</span><span class="nums" style="font-size:40px;color:#9ca3af">bez zmian</span></div>
+			<span class="badge">Zdjęcia w cache na rok</span>
+		</div>
+	</div>
+</body>
+</html>
